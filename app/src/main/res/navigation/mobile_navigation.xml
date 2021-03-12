@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.patrickdurke.trackremindtodo.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/home_fragment" />
+
+    <fragment
+        android:id="@+id/nav_track"
+        android:name="com.patrickdurke.trackremindtodo.ui.track.TrackFragment"
+        android:label="@string/menu_track"
+        tools:layout="@layout/track_fragment" />
+
+    <fragment
+        android:id="@+id/nav_remind"
+        android:name="com.patrickdurke.trackremindtodo.ui.remind.RemindFragment"
+        android:label="@string/menu_remind"
+        tools:layout="@layout/remind_fragment" />
+
+    <fragment
+        android:id="@+id/nav_todo"
+        android:name="com.patrickdurke.trackremindtodo.ui.todo.TodoFragment"
+        android:label="@string/menu_todo"
+        tools:layout="@layout/todo_fragment" />
+</navigation>
