@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
@@ -33,7 +33,7 @@ public class TrackFragment extends Fragment {
         // create RecyclerView
         recyclerView = root.findViewById(R.id.track_recyclerview);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(root.getContext(), 2));
         recyclerView.setAdapter(new RandomNumListAdapter(1234));
 
         return root;

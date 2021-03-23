@@ -33,7 +33,7 @@ public class RandomNumListAdapter extends RecyclerView.Adapter<TrackRecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull TrackRecyclerViewHolder holder, int position) {
-        holder.getView().setText(String.valueOf(random.nextInt()));
+        holder.getView().setText("TrackArea: \n " + random.nextInt());
     }
 
     @Override
