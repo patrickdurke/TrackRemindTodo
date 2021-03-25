@@ -34,7 +34,7 @@ public class TrackFragment extends Fragment {
         recyclerView = root.findViewById(R.id.track_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(root.getContext(), 2));
-        recyclerView.setAdapter(new RandomNumListAdapter(1234));
+        recyclerView.setAdapter(new TrackingAreaListAdapter());
 
         return root;
     }

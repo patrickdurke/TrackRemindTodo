@@ -9,13 +9,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class RandomNumListAdapter extends RecyclerView.Adapter<TrackRecyclerViewHolder> {
-    private Random random;
+public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerViewHolder> {
+    private List<TrackingArea> trackingAreaList = new ArrayList<>();
 
-    public RandomNumListAdapter(int seed) {
-        this.random = new Random(seed);
+    public TrackingAreaListAdapter() {
+        //DummyData
+        trackingAreaList.add(new TrackingArea(1,"Fitness", "Green"));
+        trackingAreaList.add(new TrackingArea(2,"Mood", "Blue"));
+        trackingAreaList.add(new TrackingArea(3,"Medication", "Red"));
+        trackingAreaList.add(new TrackingArea(4,"Meditation", "Purple"));
+        trackingAreaList.add(new TrackingArea(5,"RandomNotes", "Orange"));
     }
 
     @Override
@@ -33,11 +40,11 @@ public class RandomNumListAdapter extends RecyclerView.Adapter<TrackRecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull TrackRecyclerViewHolder holder, int position) {
-        holder.getView().setText("TrackArea: \n " + random.nextInt());
+        holder.getView().setText(trackingAreaList.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return 100;
+        return trackingAreaList.size();
     }
 }
