@@ -16,15 +16,6 @@ import java.util.Random;
 public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerViewHolder> {
     private List<TrackingArea> trackingAreaList = new ArrayList<>();
 
-    public TrackingAreaListAdapter() {
-        //DummyData
-        trackingAreaList.add(new TrackingArea(1,"Fitness", "Green"));
-        trackingAreaList.add(new TrackingArea(2,"Mood", "Blue"));
-        trackingAreaList.add(new TrackingArea(3,"Medication", "Red"));
-        trackingAreaList.add(new TrackingArea(4,"Meditation", "Purple"));
-        trackingAreaList.add(new TrackingArea(5,"RandomNotes", "Orange"));
-    }
-
     @Override
     public int getItemViewType(final int position) {
         return R.layout.track_frame_textview;
@@ -46,5 +37,10 @@ public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerV
     @Override
     public int getItemCount() {
         return trackingAreaList.size();
+    }
+
+    public void setTrackingAreaList(List<TrackingArea> trackingAreaList) {
+        this.trackingAreaList = trackingAreaList;
+        notifyDataSetChanged();
     }
 }
