@@ -5,13 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
+import com.patrickdurke.trackremindtodo.ui.track.track_area.TrackAreaFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerViewHolder> {
     private List<TrackingArea> trackingAreaList = new ArrayList<>();
@@ -32,6 +35,14 @@ public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerV
     @Override
     public void onBindViewHolder(@NonNull TrackRecyclerViewHolder holder, int position) {
         holder.getView().setText(trackingAreaList.get(position).getName());
+        holder.itemView.setOnClickListener(v -> {
+            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setReorderingAllowed(true);
+            fragmentTransaction.replace(R.id.track, TrackAreaFragment.class, null);
+            fragmentTransaction.commit();
+        });
     }
 
     @Override
