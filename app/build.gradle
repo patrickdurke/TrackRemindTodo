@@ -42,3 +42,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
+
+//Ensure type-safety by using Safe Args
+// https://developer.android.com/guide/navigation/navigation-getting-started#ensure_type-safety_by_using_safe_args
+// Add to top? https://stackoverflow.com/questions/53921194/plugin-with-id-androidx-navigation-safeargs-not-found
+// Add to bottom? https://stackoverflow.com/questions/50284338/could-not-find-androidx-navigationsafe-args-gradle-plugin1-0-0-alpha01
+apply plugin: "androidx.navigation.safeargs"

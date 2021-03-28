@@ -28,4 +28,13 @@
         android:name="com.patrickdurke.trackremindtodo.ui.todo.TodoFragment"
         android:label="@string/menu_todo"
         tools:layout="@layout/todo_fragment" />
+    <fragment
+        android:id="@+id/trackAreaFragment"
+        android:name="com.patrickdurke.trackremindtodo.ui.track.track_area.TrackAreaFragment"
+        android:label="track_area_fragment"
+        tools:layout="@layout/track_area_fragment" >
+        <action
+            android:id="@+id/action_trackAreaFragment_to_nav_track"
+            app:destination="@id/nav_track" />
+    </fragment>
 </navigation>
