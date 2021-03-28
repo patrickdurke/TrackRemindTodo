@@ -6,9 +6,9 @@
     tools:context=".ui.track.track_area.TrackAreaFragment">
 
     <TextView
+        android:id="@+id/text_track_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello from track_area_fragment.xml"
         android:background="?android:windowBackground"/>
 
 </FrameLayout>

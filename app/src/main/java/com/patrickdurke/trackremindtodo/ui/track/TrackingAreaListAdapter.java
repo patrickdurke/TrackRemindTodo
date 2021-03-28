@@ -1,5 +1,6 @@
 package com.patrickdurke.trackremindtodo.ui.track;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,9 @@ public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerV
     @Override
     public void onBindViewHolder(@NonNull TrackRecyclerViewHolder holder, int position) {
         holder.getView().setText(trackingAreaList.get(position).getName());
-        holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.trackAreaFragment));
+        Bundle bundle = new Bundle();
+                bundle.putString("selectedItem", trackingAreaList.get(position).getName());
+        holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.trackAreaFragment, bundle));
     }
 
     @Override

@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
 
-import java.util.List;
-
 public class TrackFragment extends Fragment {
 
     private TrackViewModel trackViewModel;
