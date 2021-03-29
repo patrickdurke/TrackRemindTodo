@@ -15,7 +15,11 @@
         android:id="@+id/nav_track"
         android:name="com.patrickdurke.trackremindtodo.ui.track.TrackFragment"
         android:label="@string/menu_track"
-        tools:layout="@layout/track_fragment" />
+        tools:layout="@layout/track_fragment" >
+        <action
+            android:id="@+id/action_nav_track_to_trackAreaFragment"
+            app:destination="@id/trackAreaFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_remind"
@@ -36,5 +40,8 @@
         <action
             android:id="@+id/action_trackAreaFragment_to_nav_track"
             app:destination="@id/nav_track" />
+        <argument
+            android:name="selectedItem"
+            app:argType="string" />
     </fragment>
 </navigation>

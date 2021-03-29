@@ -1,19 +1,14 @@
 package com.patrickdurke.trackremindtodo.ui.track;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
-import com.patrickdurke.trackremindtodo.ui.track.track_area.TrackAreaFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +24,6 @@ public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerV
     @NonNull
     @Override
     public TrackRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         return new TrackRecyclerViewHolder(view);
     }
@@ -37,9 +31,10 @@ public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerV
     @Override
     public void onBindViewHolder(@NonNull TrackRecyclerViewHolder holder, int position) {
         holder.getView().setText(trackingAreaList.get(position).getName());
-        Bundle bundle = new Bundle();
-                bundle.putString("selectedItem", trackingAreaList.get(position).getName());
-        holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.trackAreaFragment, bundle));
+        String selectedItem = trackingAreaList.get(position).getName();
+        TrackFragmentDirections.ActionNavTrackToTrackAreaFragment action = TrackFragmentDirections.actionNavTrackToTrackAreaFragment(selectedItem);
+        holder.itemView.setOnClickListener(v ->
+        Navigation.findNavController(v).navigate(action));
     }
 
     @Override
