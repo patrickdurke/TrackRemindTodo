@@ -18,7 +18,7 @@ public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerV
 
     @Override
     public int getItemViewType(final int position) {
-        return R.layout.track_frame_textview;
+        return R.layout.track_area_frame_textview;
     }
 
     @NonNull

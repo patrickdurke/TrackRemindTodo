@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.patrickdurke.trackremindtodo.ui.track.TrackingArea;
+import java.util.List;
 
 public class TrackAreaViewModel extends ViewModel {
-    private TrackingArea trackingArea;
+    private TrackingAreaRecord trackingAreaRecord;
+    private TrackingAreaRecordRepository trackingAreaRecordRepository;
     private MutableLiveData<String> mText;
 
     public TrackAreaViewModel() {
@@ -15,12 +16,16 @@ public class TrackAreaViewModel extends ViewModel {
         mText.setValue("This is track area fragment");
     }
 
-    public TrackingArea getTrackingArea() {
-        return trackingArea;
+    public void init() {
+        trackingAreaRecordRepository = new TrackingAreaRecordRepository();
     }
 
-    public void setTrackingArea(TrackingArea trackingArea) {
-        this.trackingArea = trackingArea;
+    public TrackingAreaRecord getTrackingAreaRecord() {
+        return trackingAreaRecord;
+    }
+
+    public void setTrackingAreaRecord(TrackingAreaRecord trackingAreaRecord) {
+        this.trackingAreaRecord = trackingAreaRecord;
     }
 
     public void setTrackingAreaName(String selectedItem) {
@@ -28,5 +33,9 @@ public class TrackAreaViewModel extends ViewModel {
 
     public LiveData<String> getText() {
         return mText;
+    }
+
+    public LiveData<List<TrackingAreaRecord>> getTrackingAreaRecordListLiveData() {
+        return trackingAreaRecordRepository.getTrackingAreaRecordListLiveData();
     }
 }
