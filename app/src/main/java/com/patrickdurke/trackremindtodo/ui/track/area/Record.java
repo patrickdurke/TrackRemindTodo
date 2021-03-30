@@ -1,12 +1,12 @@
-package com.patrickdurke.trackremindtodo.ui.track.track_area;
+package com.patrickdurke.trackremindtodo.ui.track.area;
 
-public class TrackingAreaRecord {
+public class Record {
     private final int id;
-    private String timeStampString;
     private final int parentId;
+    private String timeStampString;
     // NEXT LEVEL TODO: List of record entry (id + type + value + unit)
 
-    public TrackingAreaRecord(int id, String timeStampString, int parentId) {
+    public Record(int id, String timeStampString, int parentId) {
         this.id = id;
         this.timeStampString = timeStampString;
         this.parentId = parentId;
@@ -22,5 +22,9 @@ public class TrackingAreaRecord {
 
     public void setTimeStampString(String timeStampString) {
         this.timeStampString = timeStampString;
+    }
+
+    public int getParentId() {
+        return parentId;
     }
 }

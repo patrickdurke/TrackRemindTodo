@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TrackViewModel extends ViewModel {
 
-    private TrackingAreaRepository trackingAreaRepository;
+    private AreaRepository areaRepository;
 
     private MutableLiveData<String> mText;
 
@@ -18,14 +18,14 @@ public class TrackViewModel extends ViewModel {
     }
 
     public void init() {
-        trackingAreaRepository = new TrackingAreaRepository();
+        areaRepository = new AreaRepository();
     }
 
     public LiveData<String> getText() {
         return mText;
     }
 
-    public LiveData<List<TrackingArea>> getTrackingAreaListLiveData() {
-        return trackingAreaRepository.getTrackingAreaListLiveData();
+    public LiveData<List<Area>> getTrackingAreaListLiveData() {
+        return areaRepository.getAreaListLiveData();
     }
 }

@@ -1,4 +1,4 @@
-package com.patrickdurke.trackremindtodo.ui.track.track_area;
+package com.patrickdurke.trackremindtodo.ui.track.area;
 
 import android.os.Bundle;
 
@@ -16,27 +16,27 @@ import android.widget.TextView;
 
 import com.patrickdurke.trackremindtodo.R;
 
-public class TrackAreaFragment extends Fragment {
+public class AreaFragment extends Fragment {
 
-    private TrackAreaViewModel trackAreaViewModel;
+    private AreaViewModel areaViewModel;
     private RecyclerView recyclerView;
-    private TrackingAreaRecordListAdapter trackingAreaRecordListAdapter;
-    private int selectedItemId;
+    private RecordListAdapter recordListAdapter;
+    private int selectedAreaId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        trackingAreaRecordListAdapter = new TrackingAreaRecordListAdapter();
+        recordListAdapter = new RecordListAdapter();
 
-        trackAreaViewModel = new ViewModelProvider(this).get(TrackAreaViewModel.class);
-        trackAreaViewModel.init();
+        areaViewModel = new ViewModelProvider(this).get(AreaViewModel.class);
+        areaViewModel.init();
         //trackAreaViewModel.setTrackingAreaName(selectedItem);
-        selectedItemId = getArguments().getInt("selectedItemId");
+        selectedAreaId = getArguments().getInt("selectedAreaId");
         //set observer on repository data and ensure update adapter data on changed repository data
-        trackAreaViewModel.getTrackingAreaRecordListLiveData(selectedItemId).observe(this, trackingAreaRecordList -> {
-            if (trackingAreaRecordList != null) {
-                trackingAreaRecordListAdapter.setTrackingAreaRecordList(trackingAreaRecordList);
+        areaViewModel.getRecordListLiveData(selectedAreaId).observe(this, recordList -> {
+            if (recordList != null) {
+                recordListAdapter.setRecordList(recordList);
             }
         });
     }
@@ -44,18 +44,18 @@ public class TrackAreaFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        trackAreaViewModel =
-                new ViewModelProvider(this).get(TrackAreaViewModel.class);
+        areaViewModel =
+                new ViewModelProvider(this).get(AreaViewModel.class);
         View root = inflater.inflate(R.layout.track_area_fragment, container, false);
         final TextView textView = root.findViewById(R.id.text_track_area);
 
-        trackAreaViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        areaViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         // create RecyclerView
         recyclerView = root.findViewById(R.id.track_area_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        recyclerView.setAdapter(trackingAreaRecordListAdapter);
+        recyclerView.setAdapter(recordListAdapter);
 
         return root;
     }

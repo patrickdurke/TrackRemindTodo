@@ -34,14 +34,14 @@
         tools:layout="@layout/todo_fragment" />
     <fragment
         android:id="@+id/trackAreaFragment"
-        android:name="com.patrickdurke.trackremindtodo.ui.track.track_area.TrackAreaFragment"
+        android:name="com.patrickdurke.trackremindtodo.ui.track.area.AreaFragment"
         android:label="track_area_fragment"
         tools:layout="@layout/track_area_fragment" >
         <action
             android:id="@+id/action_trackAreaFragment_to_nav_track"
             app:destination="@id/nav_track" />
         <argument
-            android:name="selectedItemId"
+            android:name="selectedAreaId"
             app:argType="integer" />
         <action
             android:id="@+id/action_trackAreaFragment_to_trackAreaRecordFragment"
@@ -49,10 +49,28 @@
     </fragment>
     <fragment
         android:id="@+id/trackAreaRecordFragment"
-        android:name="com.patrickdurke.trackremindtodo.ui.track.track_area.track_area_record.TrackAreaRecordFragment"
+        android:name="com.patrickdurke.trackremindtodo.ui.track.area.record.RecordFragment"
         android:label="TrackAreaRecordFragment" >
         <action
             android:id="@+id/action_trackAreaRecordFragment_to_trackAreaFragment"
             app:destination="@id/trackAreaFragment" />
+        <argument
+            android:name="selectedRecordId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_trackAreaRecordFragment_to_entryFragment"
+            app:destination="@id/entryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryFragment"
+        android:name="com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryFragment"
+        android:label="entry_fragment"
+        tools:layout="@layout/track_area_record_entry_fragment" >
+        <action
+            android:id="@+id/action_entryFragment_to_trackAreaRecordFragment"
+            app:destination="@id/trackAreaRecordFragment" />
+        <argument
+            android:name="selectedEntryId"
+            app:argType="integer" />
     </fragment>
 </navigation>

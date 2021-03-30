@@ -13,8 +13,8 @@ import com.patrickdurke.trackremindtodo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerViewHolder> {
-    private List<TrackingArea> trackingAreaList = new ArrayList<>();
+public class AreaListAdapter extends RecyclerView.Adapter<TrackRecyclerViewHolder> {
+    private List<Area> areaList = new ArrayList<>();
 
     @Override
     public int getItemViewType(final int position) {
@@ -30,21 +30,21 @@ public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerV
 
     @Override
     public void onBindViewHolder(@NonNull TrackRecyclerViewHolder holder, int position) {
-        holder.getView().setText(trackingAreaList.get(position).getName());
+        holder.getView().setText(areaList.get(position).getName());
         //String selectedItem = trackingAreaList.get(position).getName();
-        int selectedItemId = trackingAreaList.get(position).getId();
-        TrackFragmentDirections.ActionNavTrackToTrackAreaFragment action = TrackFragmentDirections.actionNavTrackToTrackAreaFragment(selectedItemId);
+        int selectedAreaId = areaList.get(position).getId();
+        TrackFragmentDirections.ActionNavTrackToTrackAreaFragment action = TrackFragmentDirections.actionNavTrackToTrackAreaFragment(selectedAreaId);
         holder.itemView.setOnClickListener(v ->
         Navigation.findNavController(v).navigate(action));
     }
 
     @Override
     public int getItemCount() {
-        return trackingAreaList.size();
+        return areaList.size();
     }
 
-    public void setTrackingAreaList(List<TrackingArea> trackingAreaList) {
-        this.trackingAreaList = trackingAreaList;
+    public void setAreaList(List<Area> areaList) {
+        this.areaList = areaList;
         notifyDataSetChanged();
     }
 }

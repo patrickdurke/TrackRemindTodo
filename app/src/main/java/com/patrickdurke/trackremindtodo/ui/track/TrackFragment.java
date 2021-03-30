@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +19,13 @@ public class TrackFragment extends Fragment {
 
     private TrackViewModel trackViewModel;
     private RecyclerView recyclerView;
-    private TrackingAreaListAdapter trackingAreaListAdapter;
+    private AreaListAdapter areaListAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        trackingAreaListAdapter = new TrackingAreaListAdapter();
+        areaListAdapter = new AreaListAdapter();
 
         trackViewModel = new ViewModelProvider(this).get(TrackViewModel.class);
         trackViewModel.init();
@@ -34,7 +33,7 @@ public class TrackFragment extends Fragment {
         //set observer on repository data and ensure update adapter data on changed repository data
         trackViewModel.getTrackingAreaListLiveData().observe(this, trackingAreaList -> {
             if (trackingAreaList != null) {
-                trackingAreaListAdapter.setTrackingAreaList(trackingAreaList);
+                areaListAdapter.setAreaList(trackingAreaList);
             }
         });
     }
@@ -55,7 +54,7 @@ public class TrackFragment extends Fragment {
         recyclerView = root.findViewById(R.id.track_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(root.getContext(), 2));
-        recyclerView.setAdapter(trackingAreaListAdapter);
+        recyclerView.setAdapter(areaListAdapter);
 
         return root;
     }

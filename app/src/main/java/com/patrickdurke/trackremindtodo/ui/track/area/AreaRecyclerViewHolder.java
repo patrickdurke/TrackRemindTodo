@@ -1,4 +1,4 @@
-package com.patrickdurke.trackremindtodo.ui.track.track_area;
+package com.patrickdurke.trackremindtodo.ui.track.area;
 
 import android.view.View;
 import android.widget.TextView;
@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
 
-public class TrackAreaRecyclerViewHolder extends RecyclerView.ViewHolder {
+public class AreaRecyclerViewHolder extends RecyclerView.ViewHolder {
 
     private TextView view;
-    public TrackAreaRecyclerViewHolder(@NonNull View itemView) {
+    public AreaRecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
         view = itemView.findViewById(R.id.trackAreaRecordText);
     }

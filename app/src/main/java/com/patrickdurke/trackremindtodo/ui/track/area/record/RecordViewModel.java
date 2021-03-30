@@ -1,21 +1,22 @@
-package com.patrickdurke.trackremindtodo.ui.track.track_area.track_area_record;
+package com.patrickdurke.trackremindtodo.ui.track.area.record;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class TrackAreaRecordViewModel extends ViewModel {
-    // NEXT LEVEL private TrackingAreaRecordEntry trackingAreaRecordEntry;
-    // NEXT LEVEL private TrackingAreaRecordEntryRepository trackingAreaRecordEntryRepository;
+import java.util.List;
+
+public class RecordViewModel extends ViewModel {
+    private EntryRepository entryRepository;
     private MutableLiveData<String> mText;
 
-    public TrackAreaRecordViewModel() {
+    public RecordViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is track area record fragment");
     }
 
     public void init() {
-        // NEXT LEVEL trackingAreaRecordEntryRepository = new TrackingAreaRecordEntryRepository();
+        entryRepository = new EntryRepository();
     }
 
      // NEXT LEVEL    public TrackingAreaRecordEntry getTrackingAreaRecordEntry() {
@@ -33,7 +34,7 @@ public class TrackAreaRecordViewModel extends ViewModel {
         return mText;
     }
 
-     // NEXT LEVEL    public LiveData<List<TrackingAreaRecordEntry>> getTrackingAreaRecordEntryListLiveData() {
-     // NEXT LEVEL        return trackingAreaRecordEntryRepository.getTrackingAreaRecordEntryListLiveData();
-     // NEXT LEVEL    }
+    public LiveData<List<Entry>> getEntryListLiveData(int selectedItem) {
+        return entryRepository.getEntryListLiveData(selectedItem);
+    }
 }

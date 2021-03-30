@@ -1,4 +1,4 @@
-package com.patrickdurke.trackremindtodo.ui.track.track_area.track_area_record;
+package com.patrickdurke.trackremindtodo.ui.track.area.record;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,44 +10,55 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
 
-public class TrackAreaRecordFragment extends Fragment {
+public class RecordFragment extends Fragment {
 
-    public static TrackAreaRecordFragment newInstance() {
-        return new TrackAreaRecordFragment();
-    }
-    private TrackAreaRecordViewModel trackAreaRecordViewModel;
+    private RecordViewModel recordViewModel;
     private RecyclerView recyclerView;
-    // NEXT LEVEL    private TrackingAreaRecordEntryListAdapter trackingAreaRecordEntryListAdapter;
+    private EntryListAdapter entryListAdapter;
+    private int selectedRecordId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //trackingAreaRecordListAdapter = new TrackingAreaRecordListAdapter();
+        entryListAdapter = new EntryListAdapter();
 
-        trackAreaRecordViewModel = new ViewModelProvider(this).get(TrackAreaRecordViewModel.class);
-        trackAreaRecordViewModel.init();
+        recordViewModel = new ViewModelProvider(this).get(RecordViewModel.class);
+        recordViewModel.init();
 
+        selectedRecordId = getArguments().getInt("selectedRecordId");
         //set observer on repository data and ensure update adapter data on changed repository data
-      // NEXT LEVEL  trackAreaRecordViewModel.getTrackingAreaRecordEntryListLiveData().observe(this, trackingAreaRecordEntryList -> {
-      // NEXT LEVEL      if (trackingAreaRecordEntryList != null) {
-      // NEXT LEVEL          trackingAreaRecordEntryListAdapter.setTrackingAreaRecordEntryList(trackingAreaRecordEntryList);
-      // NEXT LEVEL      }
-      // NEXT LEVEL  });
+      recordViewModel.getEntryListLiveData(selectedRecordId).observe(this, entryList -> {
+          if (entryList != null) {
+              entryListAdapter.setEntryList(entryList);
+          }
+      });
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        String selectedItem = getArguments().getString("selectedItem");
+        System.out.println("RecordFragment onCreateView qqq");
+        int selectedRecordId = getArguments().getInt("selectedRecordId");
+        System.out.println("electedRecordId is: gggggg " + selectedRecordId);
         //trackAreaRecordViewModel = new ViewModelProvider(this).get(TrackAreaRecordViewModel.class);
         View root = inflater.inflate(R.layout.track_area_record_fragment, container, false);
         final TextView textView = root.findViewById(R.id.text_track_area_record);
-        textView.setText(selectedItem);
+        textView.setText("Record with id " + selectedRecordId + " was chosen but it has no entries");
+
+
+        // create RecyclerView
+        recyclerView = root.findViewById(R.id.track_area_record_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        recyclerView.setAdapter(entryListAdapter);
+
+
         return root;
     }
 
