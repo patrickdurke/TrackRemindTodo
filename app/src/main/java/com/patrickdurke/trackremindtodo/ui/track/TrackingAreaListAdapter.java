@@ -31,8 +31,9 @@ public class TrackingAreaListAdapter extends RecyclerView.Adapter<TrackRecyclerV
     @Override
     public void onBindViewHolder(@NonNull TrackRecyclerViewHolder holder, int position) {
         holder.getView().setText(trackingAreaList.get(position).getName());
-        String selectedItem = trackingAreaList.get(position).getName();
-        TrackFragmentDirections.ActionNavTrackToTrackAreaFragment action = TrackFragmentDirections.actionNavTrackToTrackAreaFragment(selectedItem);
+        //String selectedItem = trackingAreaList.get(position).getName();
+        int selectedItemId = trackingAreaList.get(position).getId();
+        TrackFragmentDirections.ActionNavTrackToTrackAreaFragment action = TrackFragmentDirections.actionNavTrackToTrackAreaFragment(selectedItemId);
         holder.itemView.setOnClickListener(v ->
         Navigation.findNavController(v).navigate(action));
     }

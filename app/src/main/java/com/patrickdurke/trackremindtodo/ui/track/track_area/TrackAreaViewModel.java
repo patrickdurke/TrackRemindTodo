@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 public class TrackAreaViewModel extends ViewModel {
-    private TrackingAreaRecord trackingAreaRecord;
     private TrackingAreaRecordRepository trackingAreaRecordRepository;
     private MutableLiveData<String> mText;
 
@@ -20,14 +19,6 @@ public class TrackAreaViewModel extends ViewModel {
         trackingAreaRecordRepository = new TrackingAreaRecordRepository();
     }
 
-    public TrackingAreaRecord getTrackingAreaRecord() {
-        return trackingAreaRecord;
-    }
-
-    public void setTrackingAreaRecord(TrackingAreaRecord trackingAreaRecord) {
-        this.trackingAreaRecord = trackingAreaRecord;
-    }
-
     public void setTrackingAreaName(String selectedItem) {
     }
 
@@ -35,7 +26,7 @@ public class TrackAreaViewModel extends ViewModel {
         return mText;
     }
 
-    public LiveData<List<TrackingAreaRecord>> getTrackingAreaRecordListLiveData() {
-        return trackingAreaRecordRepository.getTrackingAreaRecordListLiveData();
+    public LiveData<List<TrackingAreaRecord>> getTrackingAreaRecordListLiveData(int selectedItem) {
+        return trackingAreaRecordRepository.getTrackingAreaRecordListLiveData(selectedItem);
     }
 }

@@ -41,8 +41,8 @@
             android:id="@+id/action_trackAreaFragment_to_nav_track"
             app:destination="@id/nav_track" />
         <argument
-            android:name="selectedItem"
-            app:argType="string" />
+            android:name="selectedItemId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_trackAreaFragment_to_trackAreaRecordFragment"
             app:destination="@id/trackAreaRecordFragment" />

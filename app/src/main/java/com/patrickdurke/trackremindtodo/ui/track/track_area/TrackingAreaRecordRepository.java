@@ -23,7 +23,14 @@ public class TrackingAreaRecordRepository {
         trackingAreaRecordListLiveData.setValue(trackingAreaRecordList);
     }
 
-    public MutableLiveData<List<TrackingAreaRecord>> getTrackingAreaRecordListLiveData() {
+    public MutableLiveData<List<TrackingAreaRecord>> getTrackingAreaRecordListLiveData(int selectedItemId) {
+        List<TrackingAreaRecord> sortedTrackingAreaRecordList = new ArrayList<>();
+
+        for (TrackingAreaRecord record: trackingAreaRecordList)
+            if (record.getId() == selectedItemId) sortedTrackingAreaRecordList.add(record);
+
+        trackingAreaRecordListLiveData.setValue(sortedTrackingAreaRecordList);
+
         return trackingAreaRecordListLiveData;
     }
 }
