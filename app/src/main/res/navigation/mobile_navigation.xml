@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/trackAreaFragment"
         android:name="com.patrickdurke.trackremindtodo.ui.track.area.AreaFragment"
-        android:label="track_area_fragment"
+        android:label="@string/area_fragment"
         tools:layout="@layout/track_area_fragment" >
         <action
             android:id="@+id/action_trackAreaFragment_to_nav_track"
@@ -46,11 +46,14 @@
         <action
             android:id="@+id/action_trackAreaFragment_to_trackAreaRecordFragment"
             app:destination="@id/trackAreaRecordFragment" />
+        <action
+            android:id="@+id/action_trackAreaFragment_to_parameterFragment"
+            app:destination="@id/parameterFragment" />
     </fragment>
     <fragment
         android:id="@+id/trackAreaRecordFragment"
         android:name="com.patrickdurke.trackremindtodo.ui.track.area.record.RecordFragment"
-        android:label="TrackAreaRecordFragment" >
+        android:label="@string/record_fragment" >
         <action
             android:id="@+id/action_trackAreaRecordFragment_to_trackAreaFragment"
             app:destination="@id/trackAreaFragment" />
@@ -60,11 +63,14 @@
         <action
             android:id="@+id/action_trackAreaRecordFragment_to_entryFragment"
             app:destination="@id/entryFragment" />
+        <action
+            android:id="@+id/action_trackAreaRecordFragment_to_parameterFragment"
+            app:destination="@id/parameterFragment" />
     </fragment>
     <fragment
         android:id="@+id/entryFragment"
         android:name="com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryFragment"
-        android:label="entry_fragment"
+        android:label="@string/entry_fragment"
         tools:layout="@layout/track_area_record_entry_fragment" >
         <action
             android:id="@+id/action_entryFragment_to_trackAreaRecordFragment"
@@ -72,5 +78,20 @@
         <argument
             android:name="selectedEntryId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_entryFragment_to_parameterFragment"
+            app:destination="@id/parameterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/parameterFragment"
+        android:name="com.patrickdurke.trackremindtodo.ui.track.area.parameter.ParameterFragment"
+        android:label="track_area_parameter_fragment"
+        tools:layout="@layout/track_area_parameter_fragment" >
+        <action
+            android:id="@+id/action_parameterFragment_to_trackAreaRecordFragment2"
+            app:destination="@id/trackAreaRecordFragment" />
+        <action
+            android:id="@+id/action_parameterFragment_to_trackAreaFragment2"
+            app:destination="@id/trackAreaFragment" />
     </fragment>
 </navigation>
