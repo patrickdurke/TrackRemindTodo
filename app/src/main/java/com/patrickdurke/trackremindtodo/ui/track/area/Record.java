@@ -1,19 +1,21 @@
 package com.patrickdurke.trackremindtodo.ui.track.area;
 
 public class Record {
-    private final int id;
-    private final int parentId;
+    private int id;
+    private final int areaId;
     private String timeStampString;
-    // NEXT LEVEL TODO: List of record entry (id + type + value + unit)
 
-    public Record(int id, String timeStampString, int parentId) {
-        this.id = id;
+    public Record(String timeStampString, int areaId) {
         this.timeStampString = timeStampString;
-        this.parentId = parentId;
+        this.areaId = areaId;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTimeStampString() {
@@ -24,7 +26,7 @@ public class Record {
         this.timeStampString = timeStampString;
     }
 
-    public int getParentId() {
-        return parentId;
+    public int getAreaId() {
+        return areaId;
     }
 }

@@ -63,42 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*Warning:(70, 18) Resource IDs will be non-final in Android Gradle Plugin version 5.0, avoid using them in switch case statements*/
-        if (item.getItemId() == R.id.action_settings){
-            onSettingsSelected();
-            return true;
-        }
-
-        // Default
+ //       // Default
         return super.onOptionsItemSelected(item);
-        /*When you successfully handle a menu item, return true.
-        If you don't handle the menu item, you should call the superclass implementation of onOptionsItemSelected()
-        (the default implementation returns false).
-        https://developer.android.com/guide/topics/ui/menus*/
-    }
+ //       /*When you successfully handle a menu item, return true.
+ //       If you don't handle the menu item, you should call the superclass implementation of onOptionsItemSelected()
+ //       (the default implementation returns false).
+ //       https://developer.android.com/guide/topics/ui/menus*/
+   }
 
-    public boolean onSettingsSelected(){
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavDestination currentDestination = navController.getCurrentDestination();
-        int cid = currentDestination.getId();
-        String currentDestinationString = currentDestination.getLabel().toString();
-
-        /*Warning:(83, 18) Resource IDs will be non-final in Android Gradle Plugin version 5.0, avoid using them in switch case statements*/
-        if(cid == R.id.entryFragment || cid == R.id.trackAreaRecordFragment || cid == R.id.trackAreaFragment) {
-            NavDirections navDirections = null;
-            if (cid == R.id.entryFragment) {
-                navDirections = EntryFragmentDirections.actionEntryFragmentToParameterFragment();
-            } else if (cid == R.id.trackAreaRecordFragment) {
-                navDirections = RecordFragmentDirections.actionTrackAreaRecordFragmentToParameterFragment();
-            } else if (cid == R.id.trackAreaFragment) {
-                navDirections = AreaFragmentDirections.actionTrackAreaFragmentToParameterFragment();
-            }
-            Toast.makeText(getApplicationContext(), currentDestinationString + " clicked settings", Toast.LENGTH_SHORT).show();
-            navController.navigate(navDirections);
-            return true;
-        }
-        // Default
-        Toast.makeText(getApplicationContext(), currentDestinationString + " clicked settings (DEFAULT case)", Toast.LENGTH_SHORT).show();
-        return true;
-    }
 }

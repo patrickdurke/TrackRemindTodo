@@ -9,7 +9,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
-import com.patrickdurke.trackremindtodo.ui.track.TrackFragmentDirections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +31,15 @@ public class RecordListAdapter extends RecyclerView.Adapter<AreaRecyclerViewHold
     @Override
     public void onBindViewHolder(@NonNull AreaRecyclerViewHolder holder, int position) {
         holder.getView().setText(recordList.get(position).getTimeStampString());
-        //String selectedItem = recordList.get(position).getTimeStampString();
-        int selectedRecordId = recordList.get(position).getId();
-        AreaFragmentDirections.ActionTrackAreaFragmentToTrackAreaRecordFragment action = AreaFragmentDirections.actionTrackAreaFragmentToTrackAreaRecordFragment(selectedRecordId);
+
+        Record selectedRecord = recordList.get(position);
+
+        AreaFragmentDirections.ActionTrackAreaFragmentToTrackAreaRecordFragment action
+                = AreaFragmentDirections.actionTrackAreaFragmentToTrackAreaRecordFragment(selectedRecord.getId(), selectedRecord.getAreaId());
+                /*  "In general, you should strongly prefer passing only the minimal amount of data between destinations.
+                For example, you should pass a key to retrieve an object rather than passing the object itself, as the total space for all saved states is limited on Android."
+                    https://developer.android.com/guide/navigation/navigation-pass-data */
+
         holder.itemView.setOnClickListener(v ->
         Navigation.findNavController(v).navigate(action));
     }

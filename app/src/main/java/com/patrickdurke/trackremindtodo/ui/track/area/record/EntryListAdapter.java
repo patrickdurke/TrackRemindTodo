@@ -15,6 +15,11 @@ import java.util.List;
 
 public class EntryListAdapter extends RecyclerView.Adapter<RecordRecyclerViewHolder> {
     private List<Entry> entryList = new ArrayList<>();
+    private int selectedAreaId;
+
+    public EntryListAdapter(int selectedAreaId) {
+        this.selectedAreaId = selectedAreaId;
+    }
 
     @Override
     public int getItemViewType(final int position) {
@@ -30,13 +35,11 @@ public class EntryListAdapter extends RecyclerView.Adapter<RecordRecyclerViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecordRecyclerViewHolder holder, int position) {
-        holder.getView().setText(entryList.get(position).getValueUnitString());
-        //String selectedItem = entryList.get(position).getValueUnitString();
-        int selectedItemId = entryList.get(position).getId();
-
-        RecordFragmentDirections.ActionTrackAreaRecordFragmentToEntryFragment action = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(selectedItemId);
-        holder.itemView.setOnClickListener(v ->
-        Navigation.findNavController(v).navigate(action));
+        holder.getView().setText(entryList.get(position).getValue());
+        int selectedEntryId = entryList.get(position).getId();
+        RecordFragmentDirections.ActionTrackAreaRecordFragmentToEntryFragment action
+                = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(selectedEntryId, selectedAreaId);
+        holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(action));
     }
 
     @Override

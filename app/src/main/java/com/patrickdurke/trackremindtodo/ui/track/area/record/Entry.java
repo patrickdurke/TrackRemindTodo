@@ -1,30 +1,34 @@
 package com.patrickdurke.trackremindtodo.ui.track.area.record;
 
 public class Entry {
-    private final int id;
-    private final int parentId;
-    private String valueUnitString;
+    private int id;
+    private final int recordId;
+    private int parameterId;
+    private String value;
 
-
-    public Entry(int id, String valueUnitString, int parentId) {
-        this.id = id;
-        this.valueUnitString = valueUnitString;
-        this.parentId = parentId;
+    public Entry(int parameterId, String value, int recordId) {
+        this.parameterId = parameterId;
+        this.recordId = recordId;
+        this.value = value;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getValueUnitString() {
-        return valueUnitString;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setValueUnitString(String valueUnitString) {
-        this.valueUnitString = valueUnitString;
+    public int getRecordId() {
+        return recordId;
     }
 
-    public int getParentId() {
-        return parentId;
+    public int getParameterId() {
+        return parameterId;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

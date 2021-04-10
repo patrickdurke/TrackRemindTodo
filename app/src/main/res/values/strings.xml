@@ -19,4 +19,9 @@
     <string name="entry_fragment">entry_fragment</string>
     <string name="record_fragment">TrackAreaRecordFragment</string>
     <string name="area_fragment">track_area_fragment</string>
+    <string name="parameter_unit">Parameter Unit (eg. km/h)</string>
+    <string name="parameter_type">Parameter Type (select from dropdown)</string>
+    <string name="parameter_name">Parameter Name (eg. Running)</string>
+    <string name="add_new_parameter">Add new parameter</string>
+    <string name="add_parameter">Add Parameter</string>
 </resources>
