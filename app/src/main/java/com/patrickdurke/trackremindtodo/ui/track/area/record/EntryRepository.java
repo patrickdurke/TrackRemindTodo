@@ -7,11 +7,18 @@ import java.util.List;
 
 public class EntryRepository {
 
+    private static EntryRepository instance;
     private List<Entry> entryList;
     private MutableLiveData<List<Entry>> entryListLiveData;
     int latestId;
 
-    public EntryRepository() {
+    public static EntryRepository getInstance() {
+        if (instance == null)
+            instance = new EntryRepository();
+        return instance;
+    }
+
+    private EntryRepository() {
         entryList = new ArrayList<>();
         this.entryListLiveData = new MutableLiveData<>();
         latestId = -1;
@@ -36,8 +43,15 @@ public class EntryRepository {
     }
 
     public void addEntry(Entry entry){
-        entry.setId(++latestId); // TODO Should happen deeper down later
-        entryList.add(entry); //TODO Save via DAO, return added object from DAO including id
+        entry.setId(++latestId); // TODO move logic down
+        entryList.add(entry); // TODO Save via DAO, return added object from DAO including id
     }
 
+    public Entry getEntry(int selectedEntryId) {
+        for (Entry entry : entryList) {
+            if (entry.getId() == selectedEntryId)
+                return entry;
+        }
+        return null;
+    }
 }

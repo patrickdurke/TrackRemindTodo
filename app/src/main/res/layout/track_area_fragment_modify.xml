@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.track.area.parameter.ParameterFragment">
+    tools:context=".ui.track.area.AreaFragment"
+    android:id="@+id/layout_track_modify_area">
 
     <TextView
-        android:id="@+id/text_track_area_parameter_modify"
+        android:id="@+id/text_track_modify_area"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/parameter"
+        android:text="@string/area"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,20 +19,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_track_area_parameter_modify_name"
+        android:id="@+id/card_track_modify_area_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_track_area_parameter_modify"
+        app:layout_constraintTop_toBottomOf="@+id/text_track_modify_area"
         tools:layout_editor_absoluteX="16dp">
 
         <EditText
-            android:id="@+id/text_track_area_parameter_modify_name"
+            android:id="@+id/text_track_modify_area_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:drawablePadding="8dp"
-            android:hint="@string/parameter_name"
+            android:hint="@string/area_name"
             android:importantForAutofill="no"
             android:inputType="text"
             android:paddingStart="20dp"
@@ -42,45 +43,20 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_track_area_parameter_modify_type"
+        android:id="@+id/card_track_modify_area_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/card_track_area_parameter_modify_name"
+        app:layout_constraintTop_toBottomOf="@+id/card_track_modify_area_name"
         tools:layout_editor_absoluteX="16dp">
 
         <EditText
-            android:id="@+id/text_track_area_parameter_modify_type"
+            android:id="@+id/text_track_modify_area_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:drawablePadding="8dp"
-            android:hint="@string/parameter_type"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:paddingStart="20dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="10dp" />
-
-    </androidx.cardview.widget.CardView>
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_track_area_parameter_modify_unit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/card_track_area_parameter_modify_type"
-        tools:layout_editor_absoluteX="16dp">
-
-        <EditText
-            android:id="@+id/text_track_area_parameter_modify_unit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:drawablePadding="8dp"
-            android:hint="@string/parameter_unit"
+            android:hint="@string/area_color"
             android:importantForAutofill="no"
             android:inputType="text"
             android:paddingStart="20dp"
@@ -91,12 +67,12 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/button_track_area_parameter"
+        android:id="@+id/button_track_area"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_track_area_parameter_modify_unit" />
+        app:layout_constraintTop_toBottomOf="@+id/card_track_modify_area_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

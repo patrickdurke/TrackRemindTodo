@@ -22,6 +22,15 @@
     <string name="parameter_unit">Parameter Unit (eg. km/h)</string>
     <string name="parameter_type">Parameter Type (select from dropdown)</string>
     <string name="parameter_name">Parameter Name (eg. Running)</string>
-    <string name="add_new_parameter">Add new parameter</string>
+    <string name="parameter">Parameter</string>
     <string name="add_parameter">Add Parameter</string>
+    <string name="edit">Edit</string>
+    <string name="area">Area</string>
+    <string name="area_name">Area name (eg. Fitness)</string>
+    <string name="record">Record</string>
+    <string name="record_timestamp">Record timestamp (will be improved later)</string>
+    <string name="entry">Entry</string>
+    <string name="entry_value">Entry value (eg. 7)</string>
+    <string name="entry_parameter">Parameter (will be dropdown, eg. \"km\")</string>
+    <string name="area_color">Area color (eg. orange)</string>
 </resources>

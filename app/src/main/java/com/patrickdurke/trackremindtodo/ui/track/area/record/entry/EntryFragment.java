@@ -14,49 +14,107 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.patrickdurke.trackremindtodo.MainActivity;
 import com.patrickdurke.trackremindtodo.R;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordFragmentDirections;
+import com.patrickdurke.trackremindtodo.ui.track.area.AreaFragment;
+import com.patrickdurke.trackremindtodo.ui.track.area.AreaFragmentDirections;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.Entry;
 
 public class EntryFragment extends Fragment {
 
     private EntryViewModel entryViewModel;
-    private int selectedEntryId;
     private int selectedAreaId;
+    private int selectedRecordId;
+    private int selectedEntryId;
+
+    private EditText entryValue;
+    private EditText entryParameter;
+    private int entryParameterId;
+
+    private Button modifyButton;
+    private boolean addModeFlag;
+    private FloatingActionButton fab;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
 
         entryViewModel = new ViewModelProvider(this).get(EntryViewModel.class);
-        //entryViewModel.init();
+        entryViewModel.init();
 
-        selectedEntryId = getArguments().getInt("selectedEntryId");
+        assert getArguments() != null;
+        selectedEntryId = getArguments().getInt("selectedEntryId"); //-1 for none
         selectedAreaId = getArguments().getInt("selectedAreaId");
+        selectedRecordId = getArguments().getInt("selectedRecordId");
+
+        fab = this.getActivity().findViewById(R.id.fab);
+
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        assert getArguments() != null;
         selectedEntryId = getArguments().getInt("selectedEntryId");
-        View root = inflater.inflate(R.layout.track_area_record_entry_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_track_area_record_entry);
-        textView.setText("Entry with id " + selectedEntryId + " was chosen");
-        return root;
+        return inflater.inflate(R.layout.track_area_record_entry_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         entryViewModel = new ViewModelProvider(this).get(EntryViewModel.class);
-        // TODO: Use the ViewModel
+
+        View view = getView();
+
+        entryValue = view.findViewById(R.id.text_track_area_record_entry_modify_value);
+        entryParameter = view.findViewById(R.id.text_track_area_record_entry_modify_parameter); // TODO dropdown something _ based on ID...
+
+        modifyButton = view.findViewById(R.id.button_track_area_record_entry);
+        setAddMode(selectedEntryId == -1);
+
+        if(!addModeFlag){
+            Entry entry = entryViewModel.getEntry(selectedEntryId);
+            entryParameterId = entry.getParameterId();
+
+            entryValue.setText(entry.getValue() + "");
+            entryParameter.setText(entry.getParameterId() + "");
+        }
+
+        modifyButton.setOnClickListener(v -> {
+            String value = entryValue.getText().toString();
+            //entryParameterId = entryParameter.getText().toString();  // TODO dropdown something _ based on ID...
+            Entry entry = new Entry(entryParameterId, value, selectedRecordId);
+
+            if(addModeFlag) {
+                entryViewModel.addEntry(entry);
+                Toast.makeText(getActivity(), value + " entry value was added" , Toast.LENGTH_LONG).show();
+                setAddMode(false);
+            } else {
+                Toast.makeText(getActivity(), value + " entry value was edited (NOT IMPLEMENTED)" /* TODO */ , Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setOnclickListener(fab);
     }
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
+
         MenuItem item = menu.findItem(R.id.action_add_parameter);
         item.setVisible(true);
     }
@@ -65,7 +123,7 @@ public class EntryFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add_parameter) {
             EntryFragmentDirections.ActionEntryFragmentToParameterFragment action
-                    = EntryFragmentDirections.actionEntryFragmentToParameterFragment(selectedAreaId);
+                    = EntryFragmentDirections.actionEntryFragmentToParameterFragment(selectedAreaId, true);
             NavHostFragment.findNavController(this).navigate(action);
             return true;
         }
@@ -77,4 +135,29 @@ public class EntryFragment extends Fragment {
         https://developer.android.com/guide/topics/ui/menus*/
     }
 
+    private void setAddMode(Boolean addMode) {
+        addModeFlag = addMode;
+        if (addModeFlag){
+            entryValue.setText("");
+            entryParameter.setText("");
+            modifyButton.setText(R.string.add);
+
+            fab.hide();
+            fab.setOnClickListener(null);
+
+            Toast.makeText(getActivity(), "in add mode", Toast.LENGTH_LONG).show();
+        }
+        else {
+            modifyButton.setText(R.string.edit);
+
+            fab.show();
+            setOnclickListener(fab);
+        }
+    }
+
+    private void setOnclickListener(FloatingActionButton fab){
+        fab.setOnClickListener(v -> {
+            setAddMode(true);
+        });
+    }
 }

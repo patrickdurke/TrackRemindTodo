@@ -8,8 +8,8 @@ import java.util.List;
 public class ParameterViewModel extends ViewModel {
     private ParameterRepository parameterRepository;
 
-    public LiveData<List<Parameter>> getParameterListLiveData(int selectedItem) {
-        return parameterRepository.getParameterListLiveData(selectedItem);
+    public LiveData<List<Parameter>> getParameterListLiveData(int selectedAreaId) {
+        return parameterRepository.getParameterListLiveData(selectedAreaId);
     }
 
     public void addParameter(Parameter parameter) {

@@ -38,7 +38,7 @@ public class ParameterRepository {
     }
 
     public void addParameter(Parameter parameter) {
-        parameter.setId(++latestId); // TODO Should happen deeper down later
-        parameterList.add(parameter); //TODO Save via DAO, return added object from DAO including id
+        parameter.setId(++latestId);  // TODO move logic down
+        parameterList.add(parameter); // TODO Save via DAO, return added object from DAO including id
   }
 }

@@ -87,6 +87,9 @@
         <argument
             android:name="selectedAreaId"
             app:argType="integer" />
+        <argument
+            android:name="selectedRecordId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/parameterFragment"
@@ -102,5 +105,8 @@
         <argument
             android:name="selectedAreaId"
             app:argType="integer" />
+        <argument
+            android:name="addNewParameter"
+            app:argType="boolean" />
     </fragment>
 </navigation>

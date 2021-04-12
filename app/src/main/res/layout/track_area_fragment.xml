@@ -33,4 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <include layout="@layout/track_area_fragment_modify" />
+
 </FrameLayout>

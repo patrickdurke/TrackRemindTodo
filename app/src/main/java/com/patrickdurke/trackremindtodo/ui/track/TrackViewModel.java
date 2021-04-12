@@ -18,7 +18,7 @@ public class TrackViewModel extends ViewModel {
     }
 
     public void init() {
-        areaRepository = new AreaRepository();
+        areaRepository = AreaRepository.getInstance();
     }
 
     public LiveData<String> getText() {

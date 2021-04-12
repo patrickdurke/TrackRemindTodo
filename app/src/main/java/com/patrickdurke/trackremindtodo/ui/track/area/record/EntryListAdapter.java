@@ -36,9 +36,11 @@ public class EntryListAdapter extends RecyclerView.Adapter<RecordRecyclerViewHol
     @Override
     public void onBindViewHolder(@NonNull RecordRecyclerViewHolder holder, int position) {
         holder.getView().setText(entryList.get(position).getValue());
-        int selectedEntryId = entryList.get(position).getId();
+
+        Entry selectedEntry = entryList.get(position);
+
         RecordFragmentDirections.ActionTrackAreaRecordFragmentToEntryFragment action
-                = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(selectedEntryId, selectedAreaId);
+                = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(selectedEntry.getId(), selectedAreaId, selectedEntry.getRecordId());
         holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(action));
     }
 

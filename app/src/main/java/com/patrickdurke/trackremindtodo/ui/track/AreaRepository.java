@@ -2,17 +2,25 @@ package com.patrickdurke.trackremindtodo.ui.track;
 import androidx.lifecycle.MutableLiveData;
 
 import com.patrickdurke.trackremindtodo.ui.track.area.Record;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.EntryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AreaRepository {
 
+    private static AreaRepository instance;
     private List<Area> areaList;
     private MutableLiveData<List<Area>> areaListLiveData;
     int latestId;
 
-    public AreaRepository() {
+    public static AreaRepository getInstance() {
+        if (instance == null)
+            instance = new AreaRepository();
+        return instance;
+    }
+
+    private AreaRepository() {
         areaList = new ArrayList<>();
         this.areaListLiveData = new MutableLiveData<>();
         latestId = -1;
@@ -31,6 +39,6 @@ public class AreaRepository {
 
     public void addArea(Area area){
         area.setId(++latestId);  // TODO move logic down
-        areaList.add(area); //TODO Save via DAO, return added object from DAO including id
+        areaList.add(area); // TODO Save via DAO, return added object from DAO including id
     }
 }
