@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -21,12 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.patrickdurke.trackremindtodo.MainActivity;
 import com.patrickdurke.trackremindtodo.R;
-import com.patrickdurke.trackremindtodo.ui.track.area.AreaFragment;
-import com.patrickdurke.trackremindtodo.ui.track.area.AreaFragmentDirections;
 import com.patrickdurke.trackremindtodo.ui.track.area.Record;
-import com.patrickdurke.trackremindtodo.ui.track.area.parameter.Parameter;
+
+import java.util.List;
 
 public class RecordFragment extends Fragment {
 
@@ -100,7 +96,8 @@ public class RecordFragment extends Fragment {
         modifyButton.setOnClickListener(v -> {
             String timeStamp = recordTimestamp.getText().toString();
 
-            Record record = new Record(timeStamp, selectedAreaId);
+            List<Entry> entryList = recordViewModel.getEntryListLiveData(selectedRecordId).getValue();
+            Record record = new Record(timeStamp, selectedAreaId, entryList);
 
             if(addModeFlag) {
                 recordViewModel.addRecord(record);

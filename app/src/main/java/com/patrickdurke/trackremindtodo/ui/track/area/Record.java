@@ -1,13 +1,20 @@
 package com.patrickdurke.trackremindtodo.ui.track.area;
 
+import com.patrickdurke.trackremindtodo.ui.track.area.record.Entry;
+
+import java.util.List;
+
 public class Record {
     private int id;
     private final int areaId;
     private String timeStampString;
 
-    public Record(String timeStampString, int areaId) {
+    private List<Entry> entryList;
+
+    public Record(String timeStampString, int areaId, List<Entry> entryList) {
         this.timeStampString = timeStampString;
         this.areaId = areaId;
+        this.entryList = entryList;
     }
 
     public int getId() {
@@ -28,5 +35,13 @@ public class Record {
 
     public int getAreaId() {
         return areaId;
+    }
+
+    public List<Entry> getEntryList() {
+   return entryList;
+    }
+
+    public void setEntryList(List<Entry> entryList) {
+        this.entryList = entryList;
     }
 }

@@ -1,6 +1,14 @@
 package com.patrickdurke.trackremindtodo.ui.track.area;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,20 +18,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.patrickdurke.trackremindtodo.R;
 import com.patrickdurke.trackremindtodo.ui.track.Area;
-import com.patrickdurke.trackremindtodo.ui.track.area.parameter.Parameter;
 
 public class AreaFragment extends Fragment {
 
@@ -66,15 +63,17 @@ public class AreaFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        areaViewModel =
-                new ViewModelProvider(this).get(AreaViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        areaViewModel = new ViewModelProvider(this).get(AreaViewModel.class);
         View root = inflater.inflate(R.layout.track_area_fragment, container, false);
 
         constraintLayoutItem = root.findViewById(R.id.layout_track_modify_area);
         // create RecyclerView
+
         recyclerViewItemList = root.findViewById(R.id.track_area_recyclerview);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
         recyclerViewItemList.setHasFixedSize(true);
         recyclerViewItemList.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerViewItemList.setAdapter(recordListAdapter);
@@ -100,13 +99,13 @@ public class AreaFragment extends Fragment {
 
             Area area = new Area(name, color);
 
-            if(addModeFlag) {
+            if (addModeFlag) {
                 areaViewModel.addArea(area);
-                Toast.makeText(getActivity(), name + " area was added" , Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), name + " area was added", Toast.LENGTH_LONG).show();
                 setAddMode(false);
                 setOnclickListener(fab);
             } else {
-                Toast.makeText(getActivity(), name + " area was edited (NOT IMPLEMENTED)" /* TODO */ , Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), name + " area was edited (NOT IMPLEMENTED)" /* TODO */, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -118,7 +117,7 @@ public class AreaFragment extends Fragment {
         setOnclickListener(fab);
 
         setAddMode(selectedAreaId == -1);
-        if(addModeFlag){
+        if (addModeFlag) {
             recyclerViewItemList.setVisibility(View.INVISIBLE);
             constraintLayoutItem.setVisibility(View.VISIBLE);
         } else {
@@ -138,8 +137,7 @@ public class AreaFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add_parameter) {
-            AreaFragmentDirections.ActionTrackAreaFragmentToParameterFragment action
-                    = AreaFragmentDirections.actionTrackAreaFragmentToParameterFragment(selectedAreaId, true);
+            AreaFragmentDirections.ActionTrackAreaFragmentToParameterFragment action = AreaFragmentDirections.actionTrackAreaFragmentToParameterFragment(selectedAreaId, true);
             NavHostFragment.findNavController(this).navigate(action);
             return true;
         }
@@ -153,7 +151,7 @@ public class AreaFragment extends Fragment {
 
     private void setAddMode(Boolean addMode) {
         addModeFlag = addMode;
-        if (addModeFlag){
+        if (addModeFlag) {
             areaName.setText("");
             areaColor.setText("");
             modifyButton.setText(R.string.add);
@@ -161,21 +159,18 @@ public class AreaFragment extends Fragment {
             fab.setOnClickListener(null);
             recyclerViewItemList.setVisibility(View.INVISIBLE);
             constraintLayoutItem.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(), " in add mode" , Toast.LENGTH_LONG).show();
-        }
-        else {
+            Toast.makeText(getActivity(), " in add mode", Toast.LENGTH_LONG).show();
+        } else {
             modifyButton.setText(R.string.edit);
             fab.show();
         }
     }
 
-    private void setOnclickListener(FloatingActionButton fab){
+    private void setOnclickListener(FloatingActionButton fab) {
         fab.setOnClickListener(v -> {
-            if(selectedAreaId == -1)
-                setAddMode(true);
+            if (selectedAreaId == -1) setAddMode(true);
             else {
-                AreaFragmentDirections.ActionTrackAreaFragmentToTrackAreaRecordFragment action
-                        = AreaFragmentDirections.actionTrackAreaFragmentToTrackAreaRecordFragment(-1, selectedAreaId);
+                AreaFragmentDirections.ActionTrackAreaFragmentToTrackAreaRecordFragment action = AreaFragmentDirections.actionTrackAreaFragmentToTrackAreaRecordFragment(-1, selectedAreaId);
                 Toast.makeText(AreaFragment.this.getActivity(), " AreaFragment is listening", Toast.LENGTH_LONG).show();
 
                 fab.setOnClickListener(null);

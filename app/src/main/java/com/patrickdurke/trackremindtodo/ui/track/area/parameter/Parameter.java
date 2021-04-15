@@ -22,4 +22,19 @@ public class Parameter {
         this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getValueType() {
+        return valueType;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
 }

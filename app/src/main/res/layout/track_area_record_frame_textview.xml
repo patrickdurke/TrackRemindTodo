@@ -2,14 +2,44 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
-    android:layout_margin="8dp">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="8dp"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        app:cardElevation="4dp">
 
     <TextView
         android:id="@+id/trackAreaRecordText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/purple_200"
-        tools:text="This is some temp text" />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        tools:text="This is some temp text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textStyle="italic"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <!--Child RecyclerView-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/child_recyclerview"
+            android:layout_width="358dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

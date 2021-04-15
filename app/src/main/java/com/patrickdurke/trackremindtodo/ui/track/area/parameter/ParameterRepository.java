@@ -2,16 +2,25 @@ package com.patrickdurke.trackremindtodo.ui.track.area.parameter;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.patrickdurke.trackremindtodo.ui.track.area.record.EntryRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParameterRepository {
 
+    private static ParameterRepository instance;
     private List<Parameter> parameterList;
     private MutableLiveData<List<Parameter>> parameterListLiveData;
     int latestId;
 
-    public ParameterRepository() {
+    public static ParameterRepository getInstance() {
+        if (instance == null)
+            instance = new ParameterRepository();
+        return instance;
+    }
+
+    private ParameterRepository() {
         parameterList = new ArrayList<>();
         this.parameterListLiveData = new MutableLiveData<>();
         latestId = -1;
@@ -41,4 +50,11 @@ public class ParameterRepository {
         parameter.setId(++latestId);  // TODO move logic down
         parameterList.add(parameter); // TODO Save via DAO, return added object from DAO including id
   }
+
+    public Parameter getParameter(int parameterId) {
+        for (Parameter parameter: parameterList)
+            if (parameter.getId() == parameterId)
+                return parameter;
+    return null;
+    }
 }

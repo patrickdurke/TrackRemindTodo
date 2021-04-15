@@ -17,7 +17,7 @@ public class ParameterViewModel extends ViewModel {
     }
 
     public void init() {
-        parameterRepository = new ParameterRepository();
+        parameterRepository = ParameterRepository.getInstance();
     }
 
 }

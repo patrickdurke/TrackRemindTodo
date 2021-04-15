@@ -9,6 +9,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
+import com.patrickdurke.trackremindtodo.ui.track.area.parameter.Parameter;
+import com.patrickdurke.trackremindtodo.ui.track.area.parameter.ParameterRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
 public class EntryListAdapter extends RecyclerView.Adapter<RecordRecyclerViewHolder> {
     private List<Entry> entryList = new ArrayList<>();
     private int selectedAreaId;
+
+    ParameterRepository parameterRepository = ParameterRepository.getInstance();
 
     public EntryListAdapter(int selectedAreaId) {
         this.selectedAreaId = selectedAreaId;
@@ -35,12 +39,14 @@ public class EntryListAdapter extends RecyclerView.Adapter<RecordRecyclerViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecordRecyclerViewHolder holder, int position) {
-        holder.getView().setText(entryList.get(position).getValue());
+        Entry entry = entryList.get(position);
+        Parameter parameter = parameterRepository.getParameter(entry.getParameterId());
+        String entryString = parameter.getName() + ": " + entry.getValue() + " " + parameter.getUnit();
+        holder.getView().setText(entryString);
 
-        Entry selectedEntry = entryList.get(position);
 
         RecordFragmentDirections.ActionTrackAreaRecordFragmentToEntryFragment action
-                = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(selectedEntry.getId(), selectedAreaId, selectedEntry.getRecordId());
+                = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(entry.getId(), selectedAreaId, entry.getRecordId());
         holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(action));
     }
 
