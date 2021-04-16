@@ -52,9 +52,10 @@ public class RecordFragment extends Fragment {
         recordViewModel = new ViewModelProvider(this).get(RecordViewModel.class);
         recordViewModel.init();
 
-        assert getArguments() != null;
-        selectedRecordId = getArguments().getInt("selectedRecordId");
-        selectedAreaId = getArguments().getInt("selectedAreaId");
+        Bundle arguments = getArguments();
+        assert arguments != null;
+        selectedRecordId = arguments.getInt(getString(R.string.selectedRecordId));
+        selectedAreaId = arguments.getInt(getString(R.string.selectedAreaId));
 
         addModeFlag = selectedRecordId == -1;
 

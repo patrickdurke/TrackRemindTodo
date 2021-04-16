@@ -49,10 +49,11 @@ public class EntryFragment extends Fragment {
         entryViewModel = new ViewModelProvider(this).get(EntryViewModel.class);
         entryViewModel.init();
 
-        assert getArguments() != null;
-        selectedEntryId = getArguments().getInt("selectedEntryId"); //-1 for none
-        selectedAreaId = getArguments().getInt("selectedAreaId");
-        selectedRecordId = getArguments().getInt("selectedRecordId");
+        Bundle arguments = getArguments();
+        assert arguments != null;
+        selectedAreaId = arguments.getInt(getString(R.string.selectedAreaId));
+        selectedRecordId = arguments.getInt(getString(R.string.selectedRecordId));
+        selectedEntryId = arguments.getInt(getString(R.string.selectedEntryId)); //-1 for none
 
         fab = this.getActivity().findViewById(R.id.fab);
 
@@ -63,7 +64,7 @@ public class EntryFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         assert getArguments() != null;
-        selectedEntryId = getArguments().getInt("selectedEntryId");
+        selectedEntryId = getArguments().getInt(getString(R.string.selectedEntryId));
         return inflater.inflate(R.layout.track_area_record_entry_fragment, container, false);
     }
 
@@ -156,8 +157,6 @@ public class EntryFragment extends Fragment {
     }
 
     private void setOnclickListener(FloatingActionButton fab){
-        fab.setOnClickListener(v -> {
-            setAddMode(true);
-        });
+        fab.setOnClickListener(v -> setAddMode(true));
     }
 }

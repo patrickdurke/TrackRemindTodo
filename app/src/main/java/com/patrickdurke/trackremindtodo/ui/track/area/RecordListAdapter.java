@@ -48,14 +48,14 @@ public class RecordListAdapter extends RecyclerView.Adapter<AreaRecyclerViewHold
         holder.getChildRecyclerView().setAdapter(recordListChildAdapter);
         holder.getChildRecyclerView().setRecycledViewPool(viewPool);
 
-        AreaFragmentDirections.ActionTrackAreaFragmentToTrackAreaRecordFragment action
-                = AreaFragmentDirections.actionTrackAreaFragmentToTrackAreaRecordFragment(selectedRecord.getId(), selectedRecord.getAreaId());
+        AreaTabFragmentDirections.ActionAreaTabFragmentToTrackAreaRecordFragment action
+                = AreaTabFragmentDirections.actionAreaTabFragmentToTrackAreaRecordFragment(selectedRecord.getId(), selectedRecord.getAreaId());
                 /*  "In general, you should strongly prefer passing only the minimal amount of data between destinations.
                 For example, you should pass a key to retrieve an object rather than passing the object itself,
                 as the total space for all saved states is limited on Android."
                 https://developer.android.com/guide/navigation/navigation-pass-data */
 
-        holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(action));
+       holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(action));
 
     }
 

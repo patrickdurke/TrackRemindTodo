@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,11 +32,11 @@ public class AreaListAdapter extends RecyclerView.Adapter<TrackRecyclerViewHolde
     @Override
     public void onBindViewHolder(@NonNull TrackRecyclerViewHolder holder, int position) {
         holder.getView().setText(areaList.get(position).getName());
-        //String selectedItem = trackingAreaList.get(position).getName();
         int selectedAreaId = areaList.get(position).getId();
-        TrackFragmentDirections.ActionNavTrackToTrackAreaFragment action = TrackFragmentDirections.actionNavTrackToTrackAreaFragment(selectedAreaId);
-        holder.itemView.setOnClickListener(v ->
-        Navigation.findNavController(v).navigate(action));
+
+        NavDirections navDirections = TrackFragmentDirections.actionNavTrackToAreaTabFragment(selectedAreaId);
+
+        holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(navDirections));
     }
 
     @Override

@@ -33,4 +33,10 @@
     <string name="entry_value">Entry value (eg. 7)</string>
     <string name="entry_parameter">Parameter (will be dropdown, eg. \"km\")</string>
     <string name="area_color">Area color (eg. orange)</string>
+
+    <string name="selectedAreaId">selectedAreaId</string>
+    <string name="selectedRecordId">selectedRecordId</string>
+    <string name="selectedEntryId">selectedEntryId</string>
+    <string name="addNewParameter">addNewParameter</string>
+
 </resources>

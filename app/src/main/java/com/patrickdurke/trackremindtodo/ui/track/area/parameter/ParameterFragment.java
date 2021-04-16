@@ -41,9 +41,10 @@ public class ParameterFragment extends Fragment {
         parameterViewModel = new ViewModelProvider(this).get(ParameterViewModel.class);
         parameterViewModel.init();
 
-        assert getArguments() != null;
-        selectedAreaId = getArguments().getInt("selectedAreaId");
-        addModeFlag = getArguments().getBoolean("addNewParameter");
+        Bundle arguments = getArguments();
+        assert arguments != null;
+        selectedAreaId = arguments.getInt(getString(R.string.selectedAreaId));
+        addModeFlag = arguments.getBoolean(getString(R.string.addNewParameter));
 
         fab = this.getActivity().findViewById(R.id.fab);
     }
@@ -116,9 +117,7 @@ public class ParameterFragment extends Fragment {
     }
 
     private void setOnclickListener(FloatingActionButton fab){
-        fab.setOnClickListener(v -> {
-            setAddMode(true);
-        });
+        fab.setOnClickListener(v -> setAddMode(true));
     }
 
 }

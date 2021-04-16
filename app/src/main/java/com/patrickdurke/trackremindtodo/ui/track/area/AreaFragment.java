@@ -24,6 +24,8 @@ import com.patrickdurke.trackremindtodo.ui.track.Area;
 
 public class AreaFragment extends Fragment {
 
+    public static final String ARG_SELECTED_AREA_ID = "selectedAreaId";
+
     private int selectedAreaId;
 
     private boolean addModeFlag;
@@ -49,8 +51,8 @@ public class AreaFragment extends Fragment {
         areaViewModel = new ViewModelProvider(this).get(AreaViewModel.class);
         areaViewModel.init();
 
-        assert getArguments() != null;
-        selectedAreaId = getArguments().getInt("selectedAreaId");
+        Bundle args = getArguments();
+        selectedAreaId = args.getInt(ARG_SELECTED_AREA_ID);
 
         //set observer on repository data and ensure update adapter data on changed repository data
         areaViewModel.getRecordListLiveData(selectedAreaId).observe(this, recordList -> {
@@ -137,8 +139,10 @@ public class AreaFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add_parameter) {
-            AreaFragmentDirections.ActionTrackAreaFragmentToParameterFragment action = AreaFragmentDirections.actionTrackAreaFragmentToParameterFragment(selectedAreaId, true);
-            NavHostFragment.findNavController(this).navigate(action);
+           AreaTabFragmentDirections.ActionAreaTabFragmentToParameterFragment action
+                   = AreaTabFragmentDirections.actionAreaTabFragmentToParameterFragment(selectedAreaId, true);
+
+           NavHostFragment.findNavController(this).navigate(action);
             return true;
         }
         // Default
@@ -170,7 +174,9 @@ public class AreaFragment extends Fragment {
         fab.setOnClickListener(v -> {
             if (selectedAreaId == -1) setAddMode(true);
             else {
-                AreaFragmentDirections.ActionTrackAreaFragmentToTrackAreaRecordFragment action = AreaFragmentDirections.actionTrackAreaFragmentToTrackAreaRecordFragment(-1, selectedAreaId);
+                AreaTabFragmentDirections.ActionAreaTabFragmentToTrackAreaRecordFragment action
+                        = AreaTabFragmentDirections.actionAreaTabFragmentToTrackAreaRecordFragment(-1, selectedAreaId);
+
                 Toast.makeText(AreaFragment.this.getActivity(), " AreaFragment is listening", Toast.LENGTH_LONG).show();
 
                 fab.setOnClickListener(null);

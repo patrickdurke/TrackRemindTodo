@@ -8,52 +8,59 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.patrickdurke.trackremindtodo.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/home_fragment" />
+        android:label="menu_home"
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_remind"
+            app:destination="@id/nav_remind" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_track"
         android:name="com.patrickdurke.trackremindtodo.ui.track.TrackFragment"
-        android:label="@string/menu_track"
+        android:label="menu_track"
         tools:layout="@layout/track_fragment" >
         <action
             android:id="@+id/action_nav_track_to_trackAreaFragment"
             app:destination="@id/trackAreaFragment" />
+        <action
+            android:id="@+id/action_nav_track_to_areaTabFragment"
+            app:destination="@id/areaTabFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_remind"
         android:name="com.patrickdurke.trackremindtodo.ui.remind.RemindFragment"
-        android:label="@string/menu_remind"
+        android:label="menu_remind"
         tools:layout="@layout/remind_fragment" />
 
     <fragment
         android:id="@+id/nav_todo"
         android:name="com.patrickdurke.trackremindtodo.ui.todo.TodoFragment"
-        android:label="@string/menu_todo"
+        android:label="menu_todo"
         tools:layout="@layout/todo_fragment" />
     <fragment
         android:id="@+id/trackAreaFragment"
         android:name="com.patrickdurke.trackremindtodo.ui.track.area.AreaFragment"
-        android:label="@string/area_fragment"
+        android:label="area_fragment"
         tools:layout="@layout/track_area_fragment" >
         <action
             android:id="@+id/action_trackAreaFragment_to_nav_track"
             app:destination="@id/nav_track" />
-        <argument
-            android:name="selectedAreaId"
-            app:argType="integer" />
         <action
             android:id="@+id/action_trackAreaFragment_to_trackAreaRecordFragment"
             app:destination="@id/trackAreaRecordFragment" />
         <action
             android:id="@+id/action_trackAreaFragment_to_parameterFragment"
             app:destination="@id/parameterFragment" />
+        <argument
+            android:name="selectedAreaId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/trackAreaRecordFragment"
         android:name="com.patrickdurke.trackremindtodo.ui.track.area.record.RecordFragment"
-        android:label="@string/record_fragment" >
+        android:label="record_fragment" >
         <action
             android:id="@+id/action_trackAreaRecordFragment_to_trackAreaFragment"
             app:destination="@id/trackAreaFragment" />
@@ -73,7 +80,7 @@
     <fragment
         android:id="@+id/entryFragment"
         android:name="com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryFragment"
-        android:label="@string/entry_fragment"
+        android:label="entry_fragment"
         tools:layout="@layout/track_area_record_entry_fragment" >
         <action
             android:id="@+id/action_entryFragment_to_trackAreaRecordFragment"
@@ -108,5 +115,19 @@
         <argument
             android:name="addNewParameter"
             app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/areaTabFragment"
+        android:name="com.patrickdurke.trackremindtodo.ui.track.area.AreaTabFragment"
+        android:label="Area" >
+        <action
+            android:id="@+id/action_areaTabFragment_to_trackAreaRecordFragment"
+            app:destination="@id/trackAreaRecordFragment" />
+        <action
+            android:id="@+id/action_areaTabFragment_to_parameterFragment"
+            app:destination="@id/parameterFragment" />
+        <argument
+            android:name="selectedAreaId"
+            app:argType="integer" />
     </fragment>
 </navigation>

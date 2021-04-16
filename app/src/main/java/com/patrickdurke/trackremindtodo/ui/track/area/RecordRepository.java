@@ -39,7 +39,7 @@ public class RecordRepository {
 
         entryList = new ArrayList<>();
         entryList.add(new Entry(5,"2", 1));
-        addRecord(new Record("March 26, 18:02", 0, entryList));
+        addRecord(new Record("March 26, 18:02", 1, entryList));
         //addRecord(new Record("2021-03-25-18-17-44", 1, entryList));
 
         entryList = new ArrayList<>();
@@ -48,11 +48,11 @@ public class RecordRepository {
         //addRecord(new Record("2021-03-26-14-17-11", 0, entryList));
 
         entryList = new ArrayList<>();
-        entryList.add(new Entry(5, "1", 1));
-        addRecord(new Record("April 15, 11:11", 0, entryList));
+        entryList.add(new Entry(5, "1", 3));
+        addRecord(new Record("April 15, 11:11", 1, entryList));
 
         entryList = new ArrayList<>();
-        entryList.add(new Entry(0,"7", 0));
+        entryList.add(new Entry(0,"7", 4));
         addRecord(new Record("April 15, 12:34", 0, entryList));
         addRecord(new Record("March 15, 13:25", 0, entryList));
         addRecord(new Record("March 16, 14:45", 0, entryList));

@@ -44,8 +44,8 @@ public class RecordListChildAdapter extends RecyclerView.Adapter<RecordListChild
         childViewHolder.ChildItemTitle.setText(entryString);
 
         int areaId = recordRepository.getAreaId(entry.getRecordId());
-        AreaFragmentDirections.ActionTrackAreaFragmentToTrackAreaRecordFragment action
-                = AreaFragmentDirections.actionTrackAreaFragmentToTrackAreaRecordFragment(entry.getRecordId(), areaId);
+        AreaTabFragmentDirections.ActionAreaTabFragmentToTrackAreaRecordFragment action
+                = AreaTabFragmentDirections.actionAreaTabFragmentToTrackAreaRecordFragment(entry.getRecordId(), areaId);
 
         childViewHolder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(action));
 
