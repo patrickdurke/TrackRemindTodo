@@ -1,27 +1,21 @@
 package com.patrickdurke.trackremindtodo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.patrickdurke.trackremindtodo.ui.track.area.AreaFragment;
-import com.patrickdurke.trackremindtodo.ui.track.area.AreaFragmentDirections;
-import com.patrickdurke.trackremindtodo.ui.track.area.parameter.ParameterFragment;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordFragment;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordFragmentDirections;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryFragment;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryFragmentDirections;
+import com.patrickdurke.trackremindtodo.ui.SignInActivity;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+
+import androidx.core.view.GravityCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -32,16 +26,20 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     FloatingActionButton fab;
+    NavigationView navigationView;
+    private MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        viewModel.init();
+        checkIfSignedIn();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         fab = findViewById(R.id.fab);
 
         // Passing each menu ID as a set of Ids because each
@@ -54,9 +52,27 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+
+        //https://stackoverflow.com/questions/60072986/onnavigationitemselected-not-calling-when-item-is-selected
+        navigationView.setNavigationItemSelectedListener(item -> {
+            boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
+
+            if(!handled) {
+                int id = item.getItemId();
+                if (id == R.id.nav_logout) {
+                    viewModel.signOut();
+                    return true;
+                }
+            }
+
+            drawer.closeDrawer(GravityCompat.START);
+            return handled;
+        });
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -74,12 +90,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
- //       // Default
+        //       // Default
         return super.onOptionsItemSelected(item);
- //       /*When you successfully handle a menu item, return true.
- //       If you don't handle the menu item, you should call the superclass implementation of onOptionsItemSelected()
- //       (the default implementation returns false).
- //       https://developer.android.com/guide/topics/ui/menus*/
-   }
+        //       /*When you successfully handle a menu item, return true.
+        //       If you don't handle the menu item, you should call the superclass implementation of onOptionsItemSelected()
+        //       (the default implementation returns false).
+        //       https://developer.android.com/guide/topics/ui/menus*/
+    }
+
+    private void checkIfSignedIn() {
+        viewModel.getCurrentUser().observe(this, user -> {
+            if (user != null) {
+                // String message = "Welcome " + user.getDisplayName(); //TODO
+                // Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            } else
+                startLoginActivity();
+        });
+    }
+
+    private void startLoginActivity() {
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
+    }
+
+    private void setupNavigationView(NavigationView navigationView) {
+    }
 
 }

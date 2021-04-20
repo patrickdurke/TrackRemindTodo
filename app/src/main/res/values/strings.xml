@@ -38,5 +38,6 @@
     <string name="selectedRecordId">selectedRecordId</string>
     <string name="selectedEntryId">selectedEntryId</string>
     <string name="addNewParameter">addNewParameter</string>
+    <string name="sign_in">Sign in</string>
 
 </resources>

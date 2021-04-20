@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "742969247595",
+    "project_id": "trackremindtodo",
+    "storage_bucket": "trackremindtodo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742969247595:android:fa3ee992fe548f0237ee2e",
+        "android_client_info": {
+          "package_name": "com.patrickdurke.trackremindtodo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742969247595-vkr7vk35ovaqfg7c0a99a0bht78e69s3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlHJtTS9hrG9sUDZyYPtOu8_2Zob0Y_q0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742969247595-vkr7vk35ovaqfg7c0a99a0bht78e69s3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
