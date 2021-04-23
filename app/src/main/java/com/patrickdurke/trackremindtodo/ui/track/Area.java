@@ -5,6 +5,9 @@ public class Area {
     private String name;
     private String color;
 
+    public Area() {
+    }
+
     public Area(String name, String color) {
         this.name = name;
         this.color = color;
@@ -32,5 +35,10 @@ public class Area {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    @Override
+    public String toString() {
+        return "Area{" + "id=" + id + ", name='" + name + '\'' + ", color='" + color + '\'' + '}';
     }
 }
