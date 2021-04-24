@@ -1,17 +1,8 @@
 package com.patrickdurke.trackremindtodo.ui.track.area;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.patrickdurke.trackremindtodo.ui.track.AreaListLiveData;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.Entry;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.EntryRepository;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordListLiveData;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class RecordRepository {
 

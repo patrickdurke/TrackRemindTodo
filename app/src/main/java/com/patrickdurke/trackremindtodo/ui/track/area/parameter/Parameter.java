@@ -2,7 +2,7 @@ package com.patrickdurke.trackremindtodo.ui.track.area.parameter;
 
 public class Parameter {
     private int id;
-    private final int areaId;
+    private int areaId;
     private String name;
     private String valueType;
     private String unit;
@@ -12,6 +12,9 @@ public class Parameter {
         this.valueType = valueType;
         this.unit = unit;
         this.areaId = areaId;
+    }
+
+    public Parameter() {
     }
 
     public int getAreaId() {
