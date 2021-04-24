@@ -2,15 +2,21 @@ package com.patrickdurke.trackremindtodo.ui.track.area.record;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryListLiveData;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class EntryRepository {
 
     private static EntryRepository instance;
-    private List<Entry> entryList;
-    private MutableLiveData<List<Entry>> entryListLiveData;
+    private EntryListLiveData entryListLiveData;
     int latestId;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference entriesRef;
 
     public static EntryRepository getInstance() {
         if (instance == null)
@@ -19,36 +25,30 @@ public class EntryRepository {
     }
 
     private EntryRepository() {
-        entryList = new ArrayList<>();
-        this.entryListLiveData = new MutableLiveData<>();
-        latestId = -1;
-        //DummyData
-        addEntry(new Entry(0,"10", 0));
-        addEntry(new Entry(1,"200", 0));
-        addEntry(new Entry(5,"2", 1));
-        addEntry(new Entry(2,"It was a nice workout", 0));
-        addEntry(new Entry(3, "65", 2));
-        entryListLiveData.setValue(entryList);
     }
 
-    public MutableLiveData<List<Entry>> getEntryListLiveData(int selectedRecordId) {
-        List<Entry> sortedEntryList = new ArrayList<>();
+    public void init(String userId, int selectedAreaId, int selectedRecordId) {
+        entriesRef = database.getReference(userId).child("records").child(selectedAreaId+"").child(selectedRecordId+"").child("entryList");
+        entryListLiveData = new EntryListLiveData(entriesRef);
 
-        for (Entry entry: entryList)
-            if (entry.getRecordId() == selectedRecordId) sortedEntryList.add(entry);
+    }
 
-        entryListLiveData.setValue(sortedEntryList);
-
+    public EntryListLiveData getEntryListLiveData() {
         return entryListLiveData;
     }
 
     public void addEntry(Entry entry){
-        entry.setId(++latestId); // TODO move logic down
-        entryList.add(entry); // TODO Save via DAO, return added object from DAO including id
+        int id = 0;
+        if (entryListLiveData.getValue() != null)
+            id = entryListLiveData.getValue().size();
+        
+        entry.setId(id);
+        DatabaseReference childRef = entriesRef.child(entry.getId()+"");
+        childRef.setValue(entry);
     }
 
     public Entry getEntry(int selectedEntryId) {
-        for (Entry entry : entryList) {
+        for (Entry entry : entryListLiveData.getValue()) {
             if (entry.getId() == selectedEntryId)
                 return entry;
         }

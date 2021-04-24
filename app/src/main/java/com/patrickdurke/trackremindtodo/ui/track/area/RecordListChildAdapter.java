@@ -53,7 +53,10 @@ public class RecordListChildAdapter extends RecyclerView.Adapter<RecordListChild
 
     @Override
     public int getItemCount() {
-        return entryList.size();
+        if (entryList != null)
+            return entryList.size();
+
+        return 0;
     }
 
     class ChildViewHolder extends RecyclerView.ViewHolder {

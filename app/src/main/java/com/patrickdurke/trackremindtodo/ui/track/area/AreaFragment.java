@@ -48,14 +48,14 @@ public class AreaFragment extends Fragment {
 
         recordListAdapter = new RecordListAdapter();
 
-        areaViewModel = new ViewModelProvider(this).get(AreaViewModel.class);
-        areaViewModel.init();
-
         Bundle args = getArguments();
         selectedAreaId = args.getInt(ARG_SELECTED_AREA_ID);
 
+        areaViewModel = new ViewModelProvider(this).get(AreaViewModel.class);
+        areaViewModel.init(selectedAreaId);
+
         //set observer on repository data and ensure update adapter data on changed repository data
-        areaViewModel.getRecordListLiveData(selectedAreaId).observe(this, recordList -> {
+        areaViewModel.getRecordListLiveData().observe(this, recordList -> {
             if (recordList != null) {
                 recordListAdapter.setRecordList(recordList);
             }

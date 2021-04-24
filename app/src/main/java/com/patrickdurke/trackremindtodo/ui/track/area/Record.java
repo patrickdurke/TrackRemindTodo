@@ -6,10 +6,13 @@ import java.util.List;
 
 public class Record {
     private int id;
-    private final int areaId;
+    private int areaId;
     private String timeStampString;
 
     private List<Entry> entryList;
+
+    public Record() {
+    }
 
     public Record(String timeStampString, int areaId, List<Entry> entryList) {
         this.timeStampString = timeStampString;

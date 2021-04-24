@@ -2,9 +2,11 @@ package com.patrickdurke.trackremindtodo.ui.track.area.record;
 
 public class Entry {
     private int id;
-    private final int recordId;
+    private int recordId;
     private int parameterId;
     private String value;
+
+    public Entry() {}
 
     public Entry(int parameterId, String value, int recordId) {
         this.parameterId = parameterId;

@@ -33,8 +33,8 @@ public class AreaRepository {
     public void addArea(Area area){
         int id = areaListLiveData.getLatestId() + 1;
         area.setId(id);
-        DatabaseReference child = areasRef.child(area.getId() + "");
-        child.setValue(area);
+        DatabaseReference childRef = areasRef.child(area.getId() + "");
+        childRef.setValue(area);
     }
 
 }

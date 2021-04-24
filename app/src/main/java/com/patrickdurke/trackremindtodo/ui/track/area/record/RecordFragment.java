@@ -49,18 +49,18 @@ public class RecordFragment extends Fragment {
 
         entryListAdapter = new EntryListAdapter(selectedRecordId);
 
-        recordViewModel = new ViewModelProvider(this).get(RecordViewModel.class);
-        recordViewModel.init();
-
         Bundle arguments = getArguments();
         assert arguments != null;
         selectedRecordId = arguments.getInt(getString(R.string.selectedRecordId));
         selectedAreaId = arguments.getInt(getString(R.string.selectedAreaId));
 
+        recordViewModel = new ViewModelProvider(this).get(RecordViewModel.class);
+        recordViewModel.init(selectedAreaId, selectedRecordId);
+
         addModeFlag = selectedRecordId == -1;
 
         //set observer on repository data and ensure update adapter data on changed repository data
-        recordViewModel.getEntryListLiveData(selectedRecordId).observe(this, entryList -> {
+        recordViewModel.getEntryListLiveData().observe(this, entryList -> {
           if (entryList != null) {
               entryListAdapter.setEntryList(entryList);
           }
@@ -97,7 +97,7 @@ public class RecordFragment extends Fragment {
         modifyButton.setOnClickListener(v -> {
             String timeStamp = recordTimestamp.getText().toString();
 
-            List<Entry> entryList = recordViewModel.getEntryListLiveData(selectedRecordId).getValue();
+            List<Entry> entryList = recordViewModel.getEntryListLiveData().getValue();
             Record record = new Record(timeStamp, selectedAreaId, entryList);
 
             if(addModeFlag) {

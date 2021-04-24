@@ -40,7 +40,11 @@ public class RecordListAdapter extends RecyclerView.Adapter<AreaRecyclerViewHold
                 = new LinearLayoutManager(holder.getChildRecyclerView().getContext(), LinearLayoutManager.VERTICAL, false);
 
         List<Entry> entryList = (List<Entry>) selectedRecord.getEntryList();
-        layoutManager.setInitialPrefetchItemCount(entryList.size());
+
+        int size = 0;
+        if(entryList != null)
+            size = entryList.size();
+        layoutManager.setInitialPrefetchItemCount(size);
 
         RecordListChildAdapter recordListChildAdapter = new RecordListChildAdapter(entryList);
         holder.getChildRecyclerView().setLayoutManager(layoutManager);

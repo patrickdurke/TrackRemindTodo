@@ -14,10 +14,6 @@ import java.util.List;
 public class EntryViewModel extends ViewModel {
     private EntryRepository entryRepository;
 
-    public LiveData<List<Entry>> getEntryListLiveData(int selectedRecordId) {
-        return entryRepository.getEntryListLiveData(selectedRecordId);
-    }
-
     public void addEntry(Entry entry) {
         entryRepository.addEntry(entry);
     }

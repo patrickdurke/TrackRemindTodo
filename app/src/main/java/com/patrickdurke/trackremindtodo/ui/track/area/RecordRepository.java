@@ -2,19 +2,24 @@ package com.patrickdurke.trackremindtodo.ui.track.area;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.patrickdurke.trackremindtodo.ui.track.AreaListLiveData;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.Entry;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.EntryRepository;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordListLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RecordRepository {
 
     private static RecordRepository instance;
+    private RecordListLiveData recordListLiveData;
 
-    private List<Record> recordList;
-    private MutableLiveData<List<Record>> recordListLiveData;
-    int latestId;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference recordsRef;
 
     public static RecordRepository getInstance() {
         if (instance == null)
@@ -23,84 +28,28 @@ public class RecordRepository {
     }
 
     private RecordRepository() {
-
-        recordList = new ArrayList<>();
-        this.recordListLiveData = new MutableLiveData<>();
-        latestId = -1;
-
-        //DummyData
-        List<Entry> entryList = new ArrayList<>();
-
-        entryList.add(new Entry(0,"10", 0));
-        entryList.add(new Entry(1,"200", 0));
-        entryList.add(new Entry(2,"It was a nice workout", 0));
-        addRecord(new Record("March 22, 17:14", 0, entryList));
-        //addRecord(new Record("2021-03-22-09-17-09", 0, entryList));
-
-        entryList = new ArrayList<>();
-        entryList.add(new Entry(5,"2", 1));
-        addRecord(new Record("March 26, 18:02", 1, entryList));
-        //addRecord(new Record("2021-03-25-18-17-44", 1, entryList));
-
-        entryList = new ArrayList<>();
-        entryList.add(new Entry(3, "65", 2));
-        addRecord(new Record("April 14, 11:01", 0, entryList));
-        //addRecord(new Record("2021-03-26-14-17-11", 0, entryList));
-
-        entryList = new ArrayList<>();
-        entryList.add(new Entry(5, "1", 3));
-        addRecord(new Record("April 15, 11:11", 1, entryList));
-
-        entryList = new ArrayList<>();
-        entryList.add(new Entry(0,"7", 4));
-        addRecord(new Record("April 15, 12:34", 0, entryList));
-        addRecord(new Record("March 15, 13:25", 0, entryList));
-        addRecord(new Record("March 16, 14:45", 0, entryList));
-        addRecord(new Record("March 17, 12:12", 10, entryList));
-        addRecord(new Record("March 18, 12:33", 0, entryList));
-        addRecord(new Record("March 19, 11:31", 0, entryList));
-        addRecord(new Record("April 20, 12:34", 0, entryList));
-        addRecord(new Record("March 21, 13:25", 0, entryList));
-        addRecord(new Record("March 22, 14:45", 0, entryList));
-        addRecord(new Record("March 23, 12:12", 0, entryList));
-        addRecord(new Record("March 24, 12:33", 0, entryList));
-        addRecord(new Record("March 25, 11:31", 0, entryList));
-        addRecord(new Record("April 26, 12:34", 0, entryList));
-        addRecord(new Record("March 27, 13:25", 0, entryList));
-        addRecord(new Record("March 28, 14:45", 0, entryList));
-        addRecord(new Record("March 29, 12:12", 0, entryList));
-        addRecord(new Record("March 30, 12:33", 0, entryList));
-        addRecord(new Record("March 31, 11:31", 0, entryList));
-
-        //addRecord(new Record("2021-03-29-15-16-12", 0, new ArrayList<>()));
-        //addRecord(new Record("2021-03-29-18-17-36", 0, new ArrayList<>()));
-
-        //
-
-        recordListLiveData.setValue(recordList);
     }
 
-    public MutableLiveData<List<Record>> getRecordListLiveData(int selectedAreaId) {
-        List<Record> sortedRecordList = new ArrayList<>();
+    public void init(String userId, int selectedAreaId) {
+        recordsRef = database.getReference(userId).child("records").child(selectedAreaId+"");
+        recordListLiveData = new RecordListLiveData(recordsRef, selectedAreaId);
 
-        for (Record record: recordList)
-            if (record.getAreaId() == selectedAreaId)
-                sortedRecordList.add(record);
+    }
 
-        recordListLiveData.setValue(sortedRecordList);
-
+    public RecordListLiveData getRecordListLiveData() {
         return recordListLiveData;
     }
 
     public void addRecord(Record record){
-        record.setId(++latestId); // TODO move logic down
-        recordList.add(record); // TODO Save via DAO, return added object from DAO including id
+        int id = recordListLiveData.getLatestId() + 1;
+        record.setId(id);
+        DatabaseReference childRef = recordsRef.child(record.getId() + "");
+        childRef.setValue(record);
     }
 
+
     public int getAreaId(int recordId) {
-        for(Record record : recordList)
-            if(record.getId() == recordId)
-                return record.getAreaId();
-        return -1;
+        return recordListLiveData.getAreaId(recordId);
     }
+
 }
