@@ -10,7 +10,7 @@
         android:id="@+id/text_track_area_record_entry_modify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/entry"
+        android:text="@string/recordEntry"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

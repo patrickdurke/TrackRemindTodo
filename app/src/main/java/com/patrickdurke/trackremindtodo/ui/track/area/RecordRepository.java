@@ -1,8 +1,15 @@
 package com.patrickdurke.trackremindtodo.ui.track.area;
 
+import com.github.mikephil.charting.data.Entry;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.patrickdurke.trackremindtodo.ui.track.area.parameter.ParameterRepository;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordListLiveData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecordRepository {
 
@@ -24,7 +31,6 @@ public class RecordRepository {
     public void init(String userId, int selectedAreaId) {
         recordsRef = database.getReference(userId).child("records").child(selectedAreaId+"");
         recordListLiveData = new RecordListLiveData(recordsRef, selectedAreaId);
-
     }
 
     public RecordListLiveData getRecordListLiveData() {
@@ -38,9 +44,29 @@ public class RecordRepository {
         childRef.setValue(record);
     }
 
-
-    public int getAreaId(int recordId) {
+    public int getAreaId(long recordId) {
         return recordListLiveData.getAreaId(recordId);
     }
 
+    public ArrayList<Entry> getChartEntries(String parameterName) {
+
+        ArrayList<Entry> chartEntries = new ArrayList<>();
+
+        int parameterId = ParameterRepository.getInstance().getParameterId(parameterName);
+        float x;
+        float y;
+
+        for (Record record : getRecordListLiveData().getValue()){
+            for (RecordEntry recordEntry : record.getRecordEntryList()){
+                if (recordEntry.getParameterId() == parameterId) {
+                    x = record.getTimeStamp();
+                    y = Float.parseFloat(recordEntry.getValue());
+                    if (y != 0f) {
+                        chartEntries.add(new Entry(x, y));
+                    }
+                }
+            }
+        }
+        return chartEntries;
+    }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import com.github.mikephil.charting.data.Entry;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,8 +14,9 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.patrickdurke.trackremindtodo.ui.UserRepository;
 import com.patrickdurke.trackremindtodo.ui.track.area.Record;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.Entry;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,25 +105,30 @@ public class AreaListLiveData extends LiveData<List<Area>> {
         textPart2.add("");
         textPart2.add(" stuff again");
 
-        List<String> timeStampStringList = new ArrayList<>();
-        timeStampStringList.add("March 15, 13:25");
-        timeStampStringList.add("March 16, 14:45");
-        timeStampStringList.add("March 17, 12:12");
-        timeStampStringList.add("March 18, 12:12");
-        timeStampStringList.add("March 19, 12:12");
+        List<Long> timeStampList = new ArrayList<>();
+
+        long timeStamp = Instant.now().getEpochSecond();
+        for (int i = 0; i < 5 ; i++) {
+            timeStamp = timeStamp + i * 86400+3600+312;
+            timeStampList.add(timeStamp);
+        }
 
         for (Area area : getAreaDummyData()) {
             int areaId = area.getId();
             String areaName = area.getName();
             List<Record> recordList = new ArrayList<>();
 
-            for (int i = 0; i < timeStampStringList.size() ; i++) {
-
+            int sign = 1;
+            for (int i = 0; i < timeStampList.size() ; i++) {
                 String text = textPart1.get(i) + areaName + textPart2.get(i);
-                String timeStamp = timeStampStringList.get(i);
 
-                List<Entry> entryList = getEntryDummyData(text, i);
-                recordList.add(new Record(timeStamp, areaId, entryList));
+                List<RecordEntry> recordEntryList = getEntryDummyData(text, i*sign);
+                recordList.add(new Record(timeStampList.get(i), areaId, recordEntryList));
+
+                if(sign > 0)
+                    sign = -1/(i+1);
+                else
+                    sign = 1;
             }
 
             int recordId = 0;
@@ -131,17 +138,17 @@ public class AreaListLiveData extends LiveData<List<Area>> {
         }
     }
 
-    private List<Entry> getEntryDummyData(String text, int i) {
-        List<Entry> entryList = new ArrayList<>();
-        entryList.add(new Entry(0, 5 + i + "", 0));
-        entryList.add(new Entry(1, 200 + i*100 + "", 0));
-        entryList.add(new Entry(2, text.toLowerCase(), 0));
+    private List<RecordEntry> getEntryDummyData(String text, int i) {
+        List<RecordEntry> recordEntryList = new ArrayList<>();
+        recordEntryList.add(new RecordEntry(0, 5 + i + "", 0));
+        recordEntryList.add(new RecordEntry(1, 200 + i*100 + "", 0));
+        recordEntryList.add(new RecordEntry(2, text.toLowerCase(), 0));
 
         int id = 0;
-        for (Entry entry : entryList)
-            entry.setId(id++);
+        for (RecordEntry recordEntry : recordEntryList)
+            recordEntry.setId(id++);
 
-        return entryList;
+        return recordEntryList;
     }
 
 }

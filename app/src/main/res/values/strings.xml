@@ -29,7 +29,7 @@
     <string name="area_name">Area name (eg. Fitness)</string>
     <string name="record">Record</string>
     <string name="record_timestamp">Record timestamp (will be improved later)</string>
-    <string name="entry">Entry</string>
+    <string name="recordEntry">Entry</string>
     <string name="entry_value">Entry value (eg. 7)</string>
     <string name="entry_parameter">Parameter (will be dropdown, eg. \"km\")</string>
     <string name="area_color">Area color (eg. orange)</string>
@@ -39,5 +39,7 @@
     <string name="selectedEntryId">selectedEntryId</string>
     <string name="addNewParameter">addNewParameter</string>
     <string name="sign_in">Sign in</string>
+
+    <string name="destination_label_area_tab_fragment">{area_name} Log</string>
 
 </resources>

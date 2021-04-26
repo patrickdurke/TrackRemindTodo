@@ -12,19 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.patrickdurke.trackremindtodo.R;
 import com.patrickdurke.trackremindtodo.ui.track.area.parameter.Parameter;
 import com.patrickdurke.trackremindtodo.ui.track.area.parameter.ParameterRepository;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.Entry;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 
 import java.util.List;
 
 public class RecordListChildAdapter extends RecyclerView.Adapter<RecordListChildAdapter.ChildViewHolder> {
 
-    private final List<Entry> entryList;
+    private final List<RecordEntry> recordEntryList;
 
     ParameterRepository parameterRepository = ParameterRepository.getInstance();
     RecordRepository recordRepository = RecordRepository.getInstance();
 
-    RecordListChildAdapter(List<Entry> entryList) {
-        this.entryList = entryList;
+    RecordListChildAdapter(List<RecordEntry> recordEntryList) {
+        this.recordEntryList = recordEntryList;
     }
 
     @NonNull
@@ -37,15 +37,15 @@ public class RecordListChildAdapter extends RecyclerView.Adapter<RecordListChild
     @Override
     public void onBindViewHolder(@NonNull ChildViewHolder childViewHolder, int position) {
 
-        Entry entry = entryList.get(position);
-        Parameter parameter = parameterRepository.getParameter(entry.getParameterId());
-        String entryString = parameter.getName() + ": " + entry.getValue() + " " + parameter.getUnit();
+        RecordEntry recordEntry = recordEntryList.get(position);
+        Parameter parameter = parameterRepository.getParameter(recordEntry.getParameterId());
+        String entryString = parameter.getName() + ": " + recordEntry.getValue() + " " + parameter.getUnit();
 
         childViewHolder.ChildItemTitle.setText(entryString);
 
-        int areaId = recordRepository.getAreaId(entry.getRecordId());
+        int areaId = recordRepository.getAreaId(recordEntry.getRecordId());
         AreaTabFragmentDirections.ActionAreaTabFragmentToTrackAreaRecordFragment action
-                = AreaTabFragmentDirections.actionAreaTabFragmentToTrackAreaRecordFragment(entry.getRecordId(), areaId);
+                = AreaTabFragmentDirections.actionAreaTabFragmentToTrackAreaRecordFragment(recordEntry.getRecordId(), areaId);
 
         childViewHolder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(action));
 
@@ -53,8 +53,8 @@ public class RecordListChildAdapter extends RecyclerView.Adapter<RecordListChild
 
     @Override
     public int getItemCount() {
-        if (entryList != null)
-            return entryList.size();
+        if (recordEntryList != null)
+            return recordEntryList.size();
 
         return 0;
     }

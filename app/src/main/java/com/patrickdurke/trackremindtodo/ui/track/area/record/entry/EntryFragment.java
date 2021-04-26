@@ -19,11 +19,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.patrickdurke.trackremindtodo.MainActivity;
 import com.patrickdurke.trackremindtodo.R;
-import com.patrickdurke.trackremindtodo.ui.track.area.AreaFragment;
-import com.patrickdurke.trackremindtodo.ui.track.area.AreaFragmentDirections;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.Entry;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryFragmentDirections;
 
 public class EntryFragment extends Fragment {
 
@@ -77,26 +75,25 @@ public class EntryFragment extends Fragment {
         View view = getView();
 
         entryValue = view.findViewById(R.id.text_track_area_record_entry_modify_value);
-        entryParameter = view.findViewById(R.id.text_track_area_record_entry_modify_parameter); // TODO dropdown something _ based on ID...
+        entryParameter = view.findViewById(R.id.text_track_area_record_entry_modify_parameter);
 
         modifyButton = view.findViewById(R.id.button_track_area_record_entry);
         setAddMode(selectedEntryId == -1);
 
         if(!addModeFlag){
-            Entry entry = entryViewModel.getEntry(selectedEntryId);
-            entryParameterId = entry.getParameterId();
+            RecordEntry recordEntry = entryViewModel.getEntry(selectedEntryId);
+            entryParameterId = recordEntry.getParameterId();
 
-            entryValue.setText(entry.getValue() + "");
-            entryParameter.setText(entry.getParameterId() + "");
+            entryValue.setText(recordEntry.getValue() + "");
+            entryParameter.setText(recordEntry.getParameterId() + "");
         }
 
         modifyButton.setOnClickListener(v -> {
             String value = entryValue.getText().toString();
-            //entryParameterId = entryParameter.getText().toString();  // TODO dropdown something _ based on ID...
-            Entry entry = new Entry(entryParameterId, value, selectedRecordId);
+            RecordEntry recordEntry = new RecordEntry(entryParameterId, value, selectedRecordId);
 
             if(addModeFlag) {
-                entryViewModel.addEntry(entry);
+                entryViewModel.addEntry(recordEntry);
                 Toast.makeText(getActivity(), value + " entry value was added" , Toast.LENGTH_LONG).show();
                 setAddMode(false);
             } else {

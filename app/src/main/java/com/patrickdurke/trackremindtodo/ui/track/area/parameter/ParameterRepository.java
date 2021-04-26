@@ -12,8 +12,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.patrickdurke.trackremindtodo.ui.UserRepository;
-import com.patrickdurke.trackremindtodo.ui.track.Area;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.EntryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,13 +65,13 @@ public class ParameterRepository {
 
     private List<Parameter> getParameterDummyData() {
         List<Parameter> parameterList = new ArrayList<>();
-        parameterList.add(new Parameter("Running", "Number", "km", 0));
-        parameterList.add(new Parameter("Swimming", "Number", "m", 0));
-        parameterList.add(new Parameter("Note", "Text", "", 0));
-        parameterList.add(new Parameter("Weight", "Number", "kg", 0));
-        parameterList.add(new Parameter("Mood", "Number", "", 1));
-        parameterList.add(new Parameter("Meditation", "Duration", "hours", 1));
-        parameterList.add(new Parameter("Calories", "Number", "kcal", 2));
+        parameterList.add(new Parameter("Running", "numberValueType", "km", 0));
+        parameterList.add(new Parameter("Swimming", "numberValueType", "m", 0));
+        parameterList.add(new Parameter("Note", "textValueType", "", 0));
+        parameterList.add(new Parameter("Weight", "numberValueType", "kg", 0));
+        parameterList.add(new Parameter("Mood", "numberValueType", "", 1));
+        parameterList.add(new Parameter("Meditation", "durationValueType", "hours", 1));
+        parameterList.add(new Parameter("Calories", "numberValueType", "kcal", 2));
 
         int id = 0;
         for (Parameter parameter : parameterList)
@@ -98,5 +96,24 @@ public class ParameterRepository {
             if (parameter.getId() == parameterId)
                 return parameter;
     return null;
+    }
+
+    public String[] getQuantitativeParameterStrings(int selectedAreaId) {
+        List<String> allParameterStringsForArea = new ArrayList<>();
+        for (Parameter parameter: parameterList)
+            if (parameter.getAreaId() == selectedAreaId && !parameter.getValueType().equals("textValueType"))
+                allParameterStringsForArea.add(parameter.getName());
+
+
+        return allParameterStringsForArea.toArray(new String[0]);
+    }
+
+    public int getParameterId(String parameterName) {
+
+        for (Parameter parameter: parameterList)
+            if (parameter.getName().equals(parameterName))
+                return parameter.getId();
+
+        return -1;
     }
 }

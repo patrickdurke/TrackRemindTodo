@@ -1,14 +1,14 @@
 package com.patrickdurke.trackremindtodo.ui.track.area.record;
 
-public class Entry {
+public class RecordEntry {
     private int id;
-    private int recordId;
+    private long recordId;
     private int parameterId;
     private String value;
 
-    public Entry() {}
+    public RecordEntry() {}
 
-    public Entry(int parameterId, String value, int recordId) {
+    public RecordEntry(int parameterId, String value, int recordId) {
         this.parameterId = parameterId;
         this.recordId = recordId;
         this.value = value;
@@ -22,7 +22,7 @@ public class Entry {
         this.id = id;
     }
 
-    public int getRecordId() {
+    public long getRecordId() {
         return recordId;
     }
 

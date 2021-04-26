@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.patrickdurke.trackremindtodo.R;
 import com.patrickdurke.trackremindtodo.ui.track.area.Record;
 
+import java.time.Instant;
 import java.util.List;
 
 public class RecordFragment extends Fragment {
@@ -62,7 +63,7 @@ public class RecordFragment extends Fragment {
         //set observer on repository data and ensure update adapter data on changed repository data
         recordViewModel.getEntryListLiveData().observe(this, entryList -> {
           if (entryList != null) {
-              entryListAdapter.setEntryList(entryList);
+              entryListAdapter.setRecordEntryList(entryList);
           }
       });
 
@@ -95,10 +96,10 @@ public class RecordFragment extends Fragment {
         modifyButton = view.findViewById(R.id.button_track_area_record);
 
         modifyButton.setOnClickListener(v -> {
-            String timeStamp = recordTimestamp.getText().toString();
+            long timeStamp = Instant.now().getEpochSecond();
 
-            List<Entry> entryList = recordViewModel.getEntryListLiveData().getValue();
-            Record record = new Record(timeStamp, selectedAreaId, entryList);
+            List<RecordEntry> recordEntryList = recordViewModel.getEntryListLiveData().getValue();
+            Record record = new Record(timeStamp, selectedAreaId, recordEntryList);
 
             if(addModeFlag) {
                 recordViewModel.addRecord(record);

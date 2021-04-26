@@ -10,22 +10,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.Entry;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 
 import java.util.List;
 
-public class EntryListLiveData extends LiveData<List<Entry>> {
+public class EntryListLiveData extends LiveData<List<RecordEntry>> {
     private static final String TAG = "EntryListLiveData";
     DatabaseReference entriesRef;
-    List<Entry> entryList;
+    List<RecordEntry> recordEntryList;
 
-    GenericTypeIndicator<List<Entry>> t = new GenericTypeIndicator<List<Entry>>() {};
+    GenericTypeIndicator<List<RecordEntry>> t = new GenericTypeIndicator<List<RecordEntry>>() {};
 
     private final ValueEventListener listener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
-            entryList = snapshot.getValue(t);
-            setValue(entryList);
+            recordEntryList = snapshot.getValue(t);
+            setValue(recordEntryList);
         }
 
         @Override

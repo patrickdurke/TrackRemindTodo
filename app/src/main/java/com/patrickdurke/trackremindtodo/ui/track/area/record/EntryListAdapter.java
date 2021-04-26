@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntryListAdapter extends RecyclerView.Adapter<RecordRecyclerViewHolder> {
-    private List<Entry> entryList = new ArrayList<>();
+    private List<RecordEntry> recordEntryList = new ArrayList<>();
     private int selectedAreaId;
 
     ParameterRepository parameterRepository = ParameterRepository.getInstance();
@@ -39,24 +39,24 @@ public class EntryListAdapter extends RecyclerView.Adapter<RecordRecyclerViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecordRecyclerViewHolder holder, int position) {
-        Entry entry = entryList.get(position);
-        Parameter parameter = parameterRepository.getParameter(entry.getParameterId());
-        String entryString = parameter.getName() + ": " + entry.getValue() + " " + parameter.getUnit();
+        RecordEntry recordEntry = recordEntryList.get(position);
+        Parameter parameter = parameterRepository.getParameter(recordEntry.getParameterId());
+        String entryString = parameter.getName() + ": " + recordEntry.getValue() + " " + parameter.getUnit();
         holder.getView().setText(entryString);
 
 
         RecordFragmentDirections.ActionTrackAreaRecordFragmentToEntryFragment action
-                = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(entry.getId(), selectedAreaId, entry.getRecordId());
+                = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(recordEntry.getId(), selectedAreaId, recordEntry.getRecordId());
         holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(action));
     }
 
     @Override
     public int getItemCount() {
-        return entryList.size();
+        return recordEntryList.size();
     }
 
-    public void setEntryList(List<Entry> entryList) {
-        this.entryList = entryList;
+    public void setRecordEntryList(List<RecordEntry> recordEntryList) {
+        this.recordEntryList = recordEntryList;
         notifyDataSetChanged();
     }
 }

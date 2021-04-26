@@ -25,9 +25,7 @@ import com.patrickdurke.trackremindtodo.ui.track.Area;
 public class AreaFragment extends Fragment {
 
     public static final String ARG_SELECTED_AREA_ID = "selectedAreaId";
-
     private int selectedAreaId;
-
     private boolean addModeFlag;
 
     private AreaViewModel areaViewModel;

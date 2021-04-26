@@ -1,13 +1,8 @@
 package com.patrickdurke.trackremindtodo.ui.track.area.record;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryListLiveData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EntryRepository {
 
@@ -28,7 +23,7 @@ public class EntryRepository {
     }
 
     public void init(String userId, int selectedAreaId, int selectedRecordId) {
-        entriesRef = database.getReference(userId).child("records").child(selectedAreaId+"").child(selectedRecordId+"").child("entryList");
+        entriesRef = database.getReference(userId).child("records").child(selectedAreaId+"").child(selectedRecordId+"").child("recordEntryList");
         entryListLiveData = new EntryListLiveData(entriesRef);
 
     }
@@ -37,20 +32,20 @@ public class EntryRepository {
         return entryListLiveData;
     }
 
-    public void addEntry(Entry entry){
+    public void addEntry(RecordEntry recordEntry){
         int id = 0;
         if (entryListLiveData.getValue() != null)
             id = entryListLiveData.getValue().size();
         
-        entry.setId(id);
-        DatabaseReference childRef = entriesRef.child(entry.getId()+"");
-        childRef.setValue(entry);
+        recordEntry.setId(id);
+        DatabaseReference childRef = entriesRef.child(recordEntry.getId()+"");
+        childRef.setValue(recordEntry);
     }
 
-    public Entry getEntry(int selectedEntryId) {
-        for (Entry entry : entryListLiveData.getValue()) {
-            if (entry.getId() == selectedEntryId)
-                return entry;
+    public RecordEntry getEntry(int selectedEntryId) {
+        for (RecordEntry recordEntry : entryListLiveData.getValue()) {
+            if (recordEntry.getId() == selectedEntryId)
+                return recordEntry;
         }
         return null;
     }

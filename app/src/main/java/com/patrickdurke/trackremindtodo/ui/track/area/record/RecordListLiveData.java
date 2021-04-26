@@ -58,7 +58,7 @@ public class RecordListLiveData extends LiveData<List<Record>> {
         return recordList.get(recordList.size()-1).getId();
     }
 
-    public int getAreaId(int recordId) {
+    public int getAreaId(long recordId) {
         for(Record record : recordList)
             if(record.getId() == recordId)
                 return record.getAreaId();

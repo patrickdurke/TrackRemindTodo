@@ -10,14 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.Entry;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RecordListAdapter extends RecyclerView.Adapter<AreaRecyclerViewHolder> { //ParentItemAdapter
     private List<Record> recordList = new ArrayList<>();
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+    private final SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM yyy HH.mm.ss", Locale.ENGLISH);
 
     @Override
     public int getItemViewType(final int position) {
@@ -33,20 +37,24 @@ public class RecordListAdapter extends RecyclerView.Adapter<AreaRecyclerViewHold
 
     @Override
     public void onBindViewHolder(@NonNull AreaRecyclerViewHolder holder, int position) {
-        holder.getView().setText(recordList.get(position).getTimeStampString());
+
+        long millis = (long) recordList.get(position).getTimeStamp() * 1000L;
+        String format = mFormat.format(new Date(millis));
+
+        holder.getView().setText(format);
         Record selectedRecord = recordList.get(position);
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(holder.getChildRecyclerView().getContext(), LinearLayoutManager.VERTICAL, false);
 
-        List<Entry> entryList = (List<Entry>) selectedRecord.getEntryList();
+        List<RecordEntry> recordEntryList = (List<RecordEntry>) selectedRecord.getRecordEntryList();
 
         int size = 0;
-        if(entryList != null)
-            size = entryList.size();
+        if(recordEntryList != null)
+            size = recordEntryList.size();
         layoutManager.setInitialPrefetchItemCount(size);
 
-        RecordListChildAdapter recordListChildAdapter = new RecordListChildAdapter(entryList);
+        RecordListChildAdapter recordListChildAdapter = new RecordListChildAdapter(recordEntryList);
         holder.getChildRecyclerView().setLayoutManager(layoutManager);
 
         holder.getChildRecyclerView().setAdapter(recordListChildAdapter);

@@ -35,7 +35,7 @@ public class RecordViewModel extends ViewModel {
         return mText;
     }
 
-    public LiveData<List<Entry>> getEntryListLiveData() {
+    public LiveData<List<RecordEntry>> getEntryListLiveData() {
         return entryRepository.getEntryListLiveData();
     }
 

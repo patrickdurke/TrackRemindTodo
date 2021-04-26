@@ -31,10 +31,11 @@ public class AreaListAdapter extends RecyclerView.Adapter<TrackRecyclerViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull TrackRecyclerViewHolder holder, int position) {
-        holder.getView().setText(areaList.get(position).getName());
+       String areaName = areaList.get(position).getName();
+        holder.getView().setText(areaName);
         int selectedAreaId = areaList.get(position).getId();
 
-        NavDirections navDirections = TrackFragmentDirections.actionNavTrackToAreaTabFragment(selectedAreaId);
+        NavDirections navDirections = TrackFragmentDirections.actionNavTrackToAreaTabFragment(selectedAreaId, areaName);
 
         holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(navDirections));
     }

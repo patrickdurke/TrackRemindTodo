@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/nav_track"
         android:name="com.patrickdurke.trackremindtodo.ui.track.TrackFragment"
-        android:label="menu_track"
+        android:label="Logs"
         tools:layout="@layout/track_fragment" >
         <action
             android:id="@+id/action_nav_track_to_trackAreaFragment"
@@ -66,7 +66,7 @@
             app:destination="@id/trackAreaFragment" />
         <argument
             android:name="selectedRecordId"
-            app:argType="integer" />
+            app:argType="long" />
         <action
             android:id="@+id/action_trackAreaRecordFragment_to_entryFragment"
             app:destination="@id/entryFragment" />
@@ -96,7 +96,7 @@
             app:argType="integer" />
         <argument
             android:name="selectedRecordId"
-            app:argType="integer" />
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/parameterFragment"
@@ -104,7 +104,7 @@
         android:label="track_area_parameter_fragment"
         tools:layout="@layout/track_area_parameter_fragment" >
         <action
-            android:id="@+id/action_parameterFragment_to_trackAreaRecordFragment2"
+            android:id="@+id/action_parameterFragment_to_trackAreaRecordFragment"
             app:destination="@id/trackAreaRecordFragment" />
         <action
             android:id="@+id/action_parameterFragment_to_trackAreaFragment2"
@@ -119,7 +119,7 @@
     <fragment
         android:id="@+id/areaTabFragment"
         android:name="com.patrickdurke.trackremindtodo.ui.track.area.AreaTabFragment"
-        android:label="Area" >
+        android:label="@string/destination_label_area_tab_fragment" >
         <action
             android:id="@+id/action_areaTabFragment_to_trackAreaRecordFragment"
             app:destination="@id/trackAreaRecordFragment" />
@@ -129,5 +129,8 @@
         <argument
             android:name="selectedAreaId"
             app:argType="integer" />
+        <argument
+            android:name="area_name"
+            app:argType="string" />
     </fragment>
 </navigation>
