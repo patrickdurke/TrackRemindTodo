@@ -9,7 +9,7 @@ public class ParameterViewModel extends ViewModel {
     private ParameterRepository parameterRepository;
 
     public LiveData<List<Parameter>> getParameterListLiveData(int selectedAreaId) {
-        return parameterRepository.getParameterListLiveData(selectedAreaId);
+        return parameterRepository.getParameterListLiveData();
     }
 
     public void addParameter(Parameter parameter) {

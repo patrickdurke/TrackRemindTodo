@@ -9,19 +9,26 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.patrickdurke.trackremindtodo.R;
+import com.patrickdurke.trackremindtodo.ui.track.area.parameter.Parameter;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
-import com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryFragmentDirections;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntryFragment extends Fragment {
 
@@ -31,9 +38,7 @@ public class EntryFragment extends Fragment {
     private int selectedEntryId;
 
     private EditText entryValue;
-    private EditText entryParameter;
     private int entryParameterId;
-
     private Button modifyButton;
     private boolean addModeFlag;
     private FloatingActionButton fab;
@@ -44,9 +49,6 @@ public class EntryFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        entryViewModel = new ViewModelProvider(this).get(EntryViewModel.class);
-        entryViewModel.init();
-
         Bundle arguments = getArguments();
         assert arguments != null;
         selectedAreaId = arguments.getInt(getString(R.string.selectedAreaId));
@@ -55,15 +57,46 @@ public class EntryFragment extends Fragment {
 
         fab = this.getActivity().findViewById(R.id.fab);
 
+        entryViewModel = new ViewModelProvider(this).get(EntryViewModel.class);
+        entryViewModel.init();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.track_area_record_entry_fragment, container, false);
+
+        Spinner parameterTypeSpinner = root.findViewById(R.id.spinner_track_area_record_entry_modify_type);
+
+        List<Parameter> parameterList = entryViewModel.getParameters(selectedAreaId);
+
+        List<String> parameterNames = new ArrayList<>();
+        for (Parameter parameter : parameterList)
+            parameterNames.add(parameter.getName() + ": " + parameter.getUnit());
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_spinner_item, parameterNames);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        parameterTypeSpinner.setAdapter(adapter);
+
+        parameterTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                entryParameterId = parameterList.get(position).getId();
+                Log.v("item", (String) parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
 
         assert getArguments() != null;
         selectedEntryId = getArguments().getInt(getString(R.string.selectedEntryId));
-        return inflater.inflate(R.layout.track_area_record_entry_fragment, container, false);
+        return root;
     }
 
     @Override
@@ -75,18 +108,9 @@ public class EntryFragment extends Fragment {
         View view = getView();
 
         entryValue = view.findViewById(R.id.text_track_area_record_entry_modify_value);
-        entryParameter = view.findViewById(R.id.text_track_area_record_entry_modify_parameter);
 
         modifyButton = view.findViewById(R.id.button_track_area_record_entry);
         setAddMode(selectedEntryId == -1);
-
-        if(!addModeFlag){
-            RecordEntry recordEntry = entryViewModel.getEntry(selectedEntryId);
-            entryParameterId = recordEntry.getParameterId();
-
-            entryValue.setText(recordEntry.getValue() + "");
-            entryParameter.setText(recordEntry.getParameterId() + "");
-        }
 
         modifyButton.setOnClickListener(v -> {
             String value = entryValue.getText().toString();
@@ -94,10 +118,10 @@ public class EntryFragment extends Fragment {
 
             if(addModeFlag) {
                 entryViewModel.addEntry(recordEntry);
-                Toast.makeText(getActivity(), value + " entry value was added" , Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "entry value: " + value + " was added" , Toast.LENGTH_LONG).show();
                 setAddMode(false);
             } else {
-                Toast.makeText(getActivity(), value + " entry value was edited (NOT IMPLEMENTED)" /* TODO */ , Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "entry value: " + value + " was edited (NOT IMPLEMENTED)" /* TODO */ , Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -137,13 +161,12 @@ public class EntryFragment extends Fragment {
         addModeFlag = addMode;
         if (addModeFlag){
             entryValue.setText("");
-            entryParameter.setText("");
             modifyButton.setText(R.string.add);
 
             fab.hide();
             fab.setOnClickListener(null);
 
-            Toast.makeText(getActivity(), "in add mode", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "in add mode, A: " + selectedAreaId + ", R: " + selectedRecordId + ", E: " + selectedEntryId, Toast.LENGTH_LONG).show();
         }
         else {
             modifyButton.setText(R.string.edit);

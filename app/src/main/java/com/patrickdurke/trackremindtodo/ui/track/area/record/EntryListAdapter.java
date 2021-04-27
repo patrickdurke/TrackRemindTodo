@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.patrickdurke.trackremindtodo.R;
@@ -43,11 +42,6 @@ public class EntryListAdapter extends RecyclerView.Adapter<RecordRecyclerViewHol
         Parameter parameter = parameterRepository.getParameter(recordEntry.getParameterId());
         String entryString = parameter.getName() + ": " + recordEntry.getValue() + " " + parameter.getUnit();
         holder.getView().setText(entryString);
-
-
-        RecordFragmentDirections.ActionTrackAreaRecordFragmentToEntryFragment action
-                = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(recordEntry.getId(), selectedAreaId, recordEntry.getRecordId());
-        holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(action));
     }
 
     @Override

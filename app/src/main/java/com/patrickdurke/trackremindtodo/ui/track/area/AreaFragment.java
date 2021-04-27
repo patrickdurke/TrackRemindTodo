@@ -172,8 +172,8 @@ public class AreaFragment extends Fragment {
         fab.setOnClickListener(v -> {
             if (selectedAreaId == -1) setAddMode(true);
             else {
-                AreaTabFragmentDirections.ActionAreaTabFragmentToTrackAreaRecordFragment action
-                        = AreaTabFragmentDirections.actionAreaTabFragmentToTrackAreaRecordFragment(-1, selectedAreaId);
+                AreaTabFragmentDirections.ActionAreaTabFragmentToEntryFragment action
+                        = AreaTabFragmentDirections.actionAreaTabFragmentToEntryFragment(-1, selectedAreaId,-1);
 
                 Toast.makeText(AreaFragment.this.getActivity(), " AreaFragment is listening", Toast.LENGTH_LONG).show();
 

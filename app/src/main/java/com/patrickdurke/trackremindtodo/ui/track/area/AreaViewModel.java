@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel;
 import com.patrickdurke.trackremindtodo.ui.UserRepository;
 import com.patrickdurke.trackremindtodo.ui.track.Area;
 import com.patrickdurke.trackremindtodo.ui.track.AreaRepository;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.EntryRepository;
 
 import java.util.List;
 import java.util.Objects;
 
 public class AreaViewModel extends ViewModel {
+    private EntryRepository entryRepository;
     private RecordRepository recordRepository;
     private AreaRepository areaRepository;
     private UserRepository userRepository;
@@ -24,11 +26,13 @@ public class AreaViewModel extends ViewModel {
         areaRepository = AreaRepository.getInstance();
         userRepository = UserRepository.getInstance();
         recordRepository = RecordRepository.getInstance();
+        entryRepository = EntryRepository.getInstance();
     }
 
     public void init(int selectedAreaId) {
         this.selectedAreaId = selectedAreaId;
         recordRepository.init(Objects.requireNonNull(userRepository.getCurrentUser().getValue()).getUid(), selectedAreaId);
+        entryRepository.init(Objects.requireNonNull(userRepository.getCurrentUser().getValue()).getUid(), selectedAreaId, -1);
     }
 
     public void setTrackingAreaName(String selectedItem) {

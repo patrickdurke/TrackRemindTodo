@@ -56,6 +56,12 @@
         <argument
             android:name="selectedAreaId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_trackAreaFragment_to_entryFragment"
+            app:destination="@id/entryFragment" />
+        <action
+            android:id="@+id/action_trackAreaFragment_self"
+            app:destination="@id/trackAreaFragment" />
     </fragment>
     <fragment
         android:id="@+id/trackAreaRecordFragment"
@@ -66,7 +72,7 @@
             app:destination="@id/trackAreaFragment" />
         <argument
             android:name="selectedRecordId"
-            app:argType="long" />
+            app:argType="integer" />
         <action
             android:id="@+id/action_trackAreaRecordFragment_to_entryFragment"
             app:destination="@id/entryFragment" />
@@ -96,7 +102,7 @@
             app:argType="integer" />
         <argument
             android:name="selectedRecordId"
-            app:argType="long" />
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/parameterFragment"
@@ -132,5 +138,8 @@
         <argument
             android:name="area_name"
             app:argType="string" />
+        <action
+            android:id="@+id/action_areaTabFragment_to_entryFragment"
+            app:destination="@id/entryFragment" />
     </fragment>
 </navigation>

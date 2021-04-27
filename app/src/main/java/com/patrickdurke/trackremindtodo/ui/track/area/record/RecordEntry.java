@@ -2,7 +2,7 @@ package com.patrickdurke.trackremindtodo.ui.track.area.record;
 
 public class RecordEntry {
     private int id;
-    private long recordId;
+    private int recordId;
     private int parameterId;
     private String value;
 
@@ -22,7 +22,7 @@ public class RecordEntry {
         this.id = id;
     }
 
-    public long getRecordId() {
+    public int getRecordId() {
         return recordId;
     }
 
@@ -32,5 +32,9 @@ public class RecordEntry {
 
     public String getValue() {
         return value;
+    }
+
+    public void setRecordId(int recordId) {
+        this.recordId = recordId;
     }
 }

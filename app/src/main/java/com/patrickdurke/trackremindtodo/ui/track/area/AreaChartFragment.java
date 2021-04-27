@@ -59,7 +59,7 @@ public class AreaChartFragment extends Fragment {
 
         areaChartViewModel = new ViewModelProvider(this).get(AreaChartViewModel.class);
 
-        Spinner spinner = (Spinner) root.findViewById(R.id.planets_spinner);
+        Spinner spinner = (Spinner) root.findViewById(R.id.spinner_track_area_parameters_chart);
 
         String[] parameterNames = areaChartViewModel.getQuantitativeParameterStrings(selectedAreaId);
 
@@ -68,7 +68,7 @@ public class AreaChartFragment extends Fragment {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, parameterNames);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 

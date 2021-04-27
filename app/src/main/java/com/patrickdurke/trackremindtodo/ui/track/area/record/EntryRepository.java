@@ -2,16 +2,20 @@ package com.patrickdurke.trackremindtodo.ui.track.area.record;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.patrickdurke.trackremindtodo.ui.UserRepository;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryListLiveData;
 
 public class EntryRepository {
 
     private static EntryRepository instance;
     private EntryListLiveData entryListLiveData;
-    int latestId;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference recordsRef;
     DatabaseReference entriesRef;
+
+    int selectedRecordId = -1;
+    int selectedAreaId = -1;
 
     public static EntryRepository getInstance() {
         if (instance == null)
@@ -23,9 +27,11 @@ public class EntryRepository {
     }
 
     public void init(String userId, int selectedAreaId, int selectedRecordId) {
-        entriesRef = database.getReference(userId).child("records").child(selectedAreaId+"").child(selectedRecordId+"").child("recordEntryList");
+        this.selectedRecordId = selectedRecordId;
+        this.selectedAreaId = selectedAreaId;
+        recordsRef = database.getReference(userId).child("records");
+        entriesRef = recordsRef.child("area_id_" + selectedAreaId).child(selectedRecordId+"").child("recordEntryList");
         entryListLiveData = new EntryListLiveData(entriesRef);
-
     }
 
     public EntryListLiveData getEntryListLiveData() {
@@ -34,10 +40,12 @@ public class EntryRepository {
 
     public void addEntry(RecordEntry recordEntry){
         int id = 0;
-        if (entryListLiveData.getValue() != null)
-            id = entryListLiveData.getValue().size();
-        
+        /*if (entryListLiveData != null)
+            id = entryListLiveData.getLatestId();*/
         recordEntry.setId(id);
+        selectedRecordId = recordEntry.getRecordId();
+
+        entriesRef = recordsRef.child("area_id_" + selectedAreaId).child(selectedRecordId+"").child("recordEntryList");
         DatabaseReference childRef = entriesRef.child(recordEntry.getId()+"");
         childRef.setValue(recordEntry);
     }

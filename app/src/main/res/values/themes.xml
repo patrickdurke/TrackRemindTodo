@@ -22,4 +22,9 @@
     <style name="Theme.TrackRemindTodo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.TrackRemindTodo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SpinnerLook" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

@@ -5,20 +5,20 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.patrickdurke.trackremindtodo.MainActivity;
 import com.patrickdurke.trackremindtodo.R;
-import com.patrickdurke.trackremindtodo.ui.track.TrackFragment;
-import com.patrickdurke.trackremindtodo.ui.track.TrackFragmentDirections;
 
 public class ParameterFragment extends Fragment {
 
@@ -29,8 +29,8 @@ public class ParameterFragment extends Fragment {
     private ParameterViewModel parameterViewModel;
 
     private EditText parameterName;
-    private EditText parameterType;
     private EditText parameterUnit;
+    private String parameterType;
     private Button modifyButton;
     private FloatingActionButton fab;
 
@@ -53,7 +53,32 @@ public class ParameterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.track_area_parameter_fragment, container, false);
+        View root = inflater.inflate(R.layout.track_area_parameter_fragment, container, false);
+        Spinner parameterTypeSpinner = (Spinner) root.findViewById(R.id.spinner_track_area_parameter_modify_type);
+
+        String[] items = new String[] { "number", "text" }; //TODO: add "duration" later
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_spinner_item, items);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        parameterTypeSpinner.setAdapter(adapter);
+
+        parameterTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parameterType = items[position]+"ValueType";
+                Log.v("item", (String) parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        return root;
     }
 
     @Override
@@ -66,7 +91,6 @@ public class ParameterFragment extends Fragment {
 
         assert view != null; //https://stackoverflow.com/questions/33671216/findviewbyid-may-produce-nullpointerexception
         parameterName = view.findViewById(R.id.text_track_area_parameter_modify_name);
-        parameterType = view.findViewById(R.id.text_track_area_parameter_modify_type);
         parameterUnit = view.findViewById(R.id.text_track_area_parameter_modify_unit);
 
         modifyButton = view.findViewById(R.id.button_track_area_parameter);
@@ -74,9 +98,8 @@ public class ParameterFragment extends Fragment {
 
         modifyButton.setOnClickListener(v -> {
             String name = parameterName.getText().toString();
-            String type = parameterType.getText().toString();
             String unit = parameterUnit.getText().toString();
-            Parameter parameter = new Parameter(name, type, unit, selectedAreaId);
+            Parameter parameter = new Parameter(name, parameterType, unit, selectedAreaId);
 
             if(addModeFlag) {
                 parameterViewModel.addParameter(parameter);
@@ -99,7 +122,6 @@ public class ParameterFragment extends Fragment {
         addModeFlag = addMode;
         if (addModeFlag){
             parameterName.setText("");
-            parameterType.setText("");
             parameterUnit.setText("");
             modifyButton.setText(R.string.add);
 

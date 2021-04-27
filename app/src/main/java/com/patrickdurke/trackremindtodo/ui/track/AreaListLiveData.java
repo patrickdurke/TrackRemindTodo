@@ -107,12 +107,13 @@ public class AreaListLiveData extends LiveData<List<Area>> {
 
         List<Long> timeStampList = new ArrayList<>();
 
-        long timeStamp = Instant.now().getEpochSecond();
+        long timeStamp = Instant.now().getEpochSecond() - 86400*14 ;
         for (int i = 0; i < 5 ; i++) {
             timeStamp = timeStamp + i * 86400+3600+312;
             timeStampList.add(timeStamp);
         }
 
+        int j = 0;
         for (Area area : getAreaDummyData()) {
             int areaId = area.getId();
             String areaName = area.getName();
@@ -123,7 +124,14 @@ public class AreaListLiveData extends LiveData<List<Area>> {
                 String text = textPart1.get(i) + areaName + textPart2.get(i);
 
                 List<RecordEntry> recordEntryList = getEntryDummyData(text, i*sign);
-                recordList.add(new Record(timeStampList.get(i), areaId, recordEntryList));
+                Record record = new Record(timeStampList.get(i), areaId, recordEntryList);
+                record.setId(j);
+
+                for (RecordEntry recordEntry : record.getRecordEntryList())
+                    recordEntry.setRecordId(j);
+
+                recordList.add(record);
+                j++;
 
                 if(sign > 0)
                     sign = -1/(i+1);
@@ -134,7 +142,7 @@ public class AreaListLiveData extends LiveData<List<Area>> {
             int recordId = 0;
             for (Record record : recordList)
                 record.setId(recordId++);
-            recordsRef.child(areaId+"").setValue(recordList);
+            recordsRef.child("area_id_"+areaId).setValue(recordList);
         }
     }
 

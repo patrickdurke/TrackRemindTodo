@@ -29,7 +29,7 @@ public class RecordRepository {
     }
 
     public void init(String userId, int selectedAreaId) {
-        recordsRef = database.getReference(userId).child("records").child(selectedAreaId+"");
+        recordsRef = database.getReference(userId).child("records").child("area_id_" + selectedAreaId);
         recordListLiveData = new RecordListLiveData(recordsRef, selectedAreaId);
     }
 
@@ -37,11 +37,12 @@ public class RecordRepository {
         return recordListLiveData;
     }
 
-    public void addRecord(Record record){
+    public int addRecord(Record record){
         int id = recordListLiveData.getLatestId() + 1;
         record.setId(id);
         DatabaseReference childRef = recordsRef.child(record.getId() + "");
         childRef.setValue(record);
+        return id;
     }
 
     public int getAreaId(long recordId) {

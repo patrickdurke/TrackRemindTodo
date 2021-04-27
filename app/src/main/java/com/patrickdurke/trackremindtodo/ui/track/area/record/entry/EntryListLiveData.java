@@ -12,6 +12,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntryListLiveData extends LiveData<List<RecordEntry>> {

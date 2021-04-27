@@ -80,7 +80,7 @@ public class ParameterRepository {
 
     }
 
-    public MutableLiveData<List<Parameter>> getParameterListLiveData(int selectedAreaId) {
+    public MutableLiveData<List<Parameter>> getParameterListLiveData() {
         return parameterListLiveData;
     }
 
@@ -116,4 +116,13 @@ public class ParameterRepository {
 
         return -1;
     }
+
+    public List<Parameter> getParameterList(int selectedAreaId){
+        List<Parameter> allParametersForArea = new ArrayList<>();
+        for (Parameter parameter: parameterList)
+            if (parameter.getAreaId() == selectedAreaId) {
+        allParametersForArea.add(parameter);
+    }
+        return allParametersForArea;
+}
 }

@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <Spinner
-        android:id="@+id/planets_spinner"
+        android:id="@+id/spinner_track_area_parameters_chart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="60dp"
