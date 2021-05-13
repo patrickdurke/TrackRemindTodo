@@ -20,8 +20,7 @@ public class RecordListLiveData extends LiveData<List<Record>> {
     List<Record> recordList;
     int selectedAreaId;
 
-    GenericTypeIndicator<List<Record>> t = new GenericTypeIndicator<List<Record>>() {
-    };
+    GenericTypeIndicator<List<Record>> t = new GenericTypeIndicator<List<Record>>() {};
 
     private final ValueEventListener listener = new ValueEventListener() {
         @Override
@@ -55,6 +54,8 @@ public class RecordListLiveData extends LiveData<List<Record>> {
 
 
     public int getLatestId() {
+        if(recordList == null || recordList.size() == 0)
+            return -1;
         return recordList.get(recordList.size()-1).getId();
     }
 

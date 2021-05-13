@@ -18,7 +18,9 @@ import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //https://firebase.googleblog.com/2017/12/using-android-architecture-components.html
 //https://medium.com/androiddevelopers/lifecycle-aware-data-loading-with-android-architecture-components-f95484159de4
@@ -48,11 +50,11 @@ public class AreaListLiveData extends LiveData<List<Area>> {
     private List<Area> getAreaDummyData() {
         int id = 0;
         List<Area> areaDummyData = new ArrayList<>();
-        areaDummyData.add(new Area("Fitness", "Green"));
-        areaDummyData.add(new Area("Mind", "Blue"));
-        areaDummyData.add(new Area("Food", "Purple"));
-        areaDummyData.add(new Area("Medication", "Red"));
-        areaDummyData.add(new Area("RandomNotes", "Orange"));
+        areaDummyData.add(new Area("Fitness"));
+        areaDummyData.add(new Area("Mind"));
+        areaDummyData.add(new Area("Food"));
+        areaDummyData.add(new Area("Medication"));
+        areaDummyData.add(new Area("Random Notes"));
 
         for (Area area : areaDummyData)
             area.setId(id++);
@@ -113,23 +115,20 @@ public class AreaListLiveData extends LiveData<List<Area>> {
             timeStampList.add(timeStamp);
         }
 
-        int j = 0;
+
         for (Area area : getAreaDummyData()) {
             int areaId = area.getId();
             String areaName = area.getName();
             List<Record> recordList = new ArrayList<>();
 
+            int j = 0;
             int sign = 1;
             for (int i = 0; i < timeStampList.size() ; i++) {
                 String text = textPart1.get(i) + areaName + textPart2.get(i);
 
-                List<RecordEntry> recordEntryList = getEntryDummyData(text, i*sign);
-                Record record = new Record(timeStampList.get(i), areaId, recordEntryList);
+                Map<String, RecordEntry> recordEntryMap = getEntryDummyData(text, i*sign, areaId, j);
+                Record record = new Record(timeStampList.get(i), areaId, recordEntryMap);
                 record.setId(j);
-
-                for (RecordEntry recordEntry : record.getRecordEntryList())
-                    recordEntry.setRecordId(j);
-
                 recordList.add(record);
                 j++;
 
@@ -146,17 +145,26 @@ public class AreaListLiveData extends LiveData<List<Area>> {
         }
     }
 
-    private List<RecordEntry> getEntryDummyData(String text, int i) {
-        List<RecordEntry> recordEntryList = new ArrayList<>();
-        recordEntryList.add(new RecordEntry(0, 5 + i + "", 0));
-        recordEntryList.add(new RecordEntry(1, 200 + i*100 + "", 0));
-        recordEntryList.add(new RecordEntry(2, text.toLowerCase(), 0));
+    private Map<String, RecordEntry> getEntryDummyData(String text, int i, int areaId, int recordId) {
+        Map<String, RecordEntry> recordEntryMap = new HashMap<>();
+
+        if(areaId == 1) { //Mind
+            recordEntryMap.put("-M_gOwVUCfvy7EkjTJj1", new RecordEntry(4, 2 + i%3 + "", recordId));
+            recordEntryMap.put("-M_gOwVUCfvy7EkjTJj2", new RecordEntry(5, 10 + i*10 + "", recordId));
+        } else if(areaId == 2){ //Food
+            recordEntryMap.put("-M_gOwVUCfvy7EkjTJj1", new RecordEntry(6, 1800 + i*100 + "", recordId));
+        } else if(areaId == 0) { //Fitness
+            recordEntryMap.put("-M_gOwVUCfvy7EkjTJj1", new RecordEntry(0, 5 + i + "", recordId));
+            recordEntryMap.put("-M_gOwVUCfvy7EkjTJj2", new RecordEntry(1, 200 + i*100 + "", recordId));
+        }
+
+        recordEntryMap.put("-M_gOwVUCfvy7EkjTJj3", new RecordEntry(2, text.toLowerCase(), recordId));
 
         int id = 0;
-        for (RecordEntry recordEntry : recordEntryList)
-            recordEntry.setId(id++);
 
-        return recordEntryList;
+        for (Map.Entry mapEntry : recordEntryMap.entrySet())
+            ((RecordEntry)mapEntry.getValue()).setId(id++);
+        return recordEntryMap;
     }
 
 }

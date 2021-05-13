@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.patrickdurke.trackremindtodo.R;
+import com.patrickdurke.trackremindtodo.ui.track.TrackFragmentDirections;
 import com.patrickdurke.trackremindtodo.ui.track.area.parameter.Parameter;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 
@@ -52,7 +55,7 @@ public class EntryFragment extends Fragment {
         Bundle arguments = getArguments();
         assert arguments != null;
         selectedAreaId = arguments.getInt(getString(R.string.selectedAreaId));
-        selectedRecordId = arguments.getInt(getString(R.string.selectedRecordId));
+        selectedRecordId = arguments.getInt(getString(R.string.selectedRecordId)); //-1 for none
         selectedEntryId = arguments.getInt(getString(R.string.selectedEntryId)); //-1 for none
 
         fab = this.getActivity().findViewById(R.id.fab);
@@ -73,6 +76,7 @@ public class EntryFragment extends Fragment {
         List<String> parameterNames = new ArrayList<>();
         for (Parameter parameter : parameterList)
             parameterNames.add(parameter.getName() + ": " + parameter.getUnit());
+        parameterNames.add("Add new parameter");
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_spinner_item, parameterNames);
@@ -83,9 +87,13 @@ public class EntryFragment extends Fragment {
 
         parameterTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                entryParameterId = parameterList.get(position).getId();
-                Log.v("item", (String) parent.getItemAtPosition(position));
+            public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+                if (position == parameterList.size()) { //The last element of parameterList is the "Add new parameter" option
+                    NavDirections navDirections = EntryFragmentDirections.actionEntryFragmentToParameterFragment(selectedAreaId, true);
+                    Navigation.findNavController(v).navigate(navDirections);
+                } else {
+                    entryParameterId = parameterList.get(position).getId();
+                }
             }
 
             @Override
@@ -116,13 +124,11 @@ public class EntryFragment extends Fragment {
             String value = entryValue.getText().toString();
             RecordEntry recordEntry = new RecordEntry(entryParameterId, value, selectedRecordId);
 
-            if(addModeFlag) {
-                entryViewModel.addEntry(recordEntry);
-                Toast.makeText(getActivity(), "entry value: " + value + " was added" , Toast.LENGTH_LONG).show();
-                setAddMode(false);
-            } else {
-                Toast.makeText(getActivity(), "entry value: " + value + " was edited (NOT IMPLEMENTED)" /* TODO */ , Toast.LENGTH_LONG).show();
-            }
+            entryViewModel.addEntry(recordEntry, selectedAreaId);
+            setAddMode(false);
+
+            //Sending user back to wherever user came from
+            NavHostFragment.findNavController(this).popBackStack();
         });
     }
 
@@ -162,11 +168,8 @@ public class EntryFragment extends Fragment {
         if (addModeFlag){
             entryValue.setText("");
             modifyButton.setText(R.string.add);
-
             fab.hide();
             fab.setOnClickListener(null);
-
-            Toast.makeText(getActivity(), "in add mode, A: " + selectedAreaId + ", R: " + selectedRecordId + ", E: " + selectedEntryId, Toast.LENGTH_LONG).show();
         }
         else {
             modifyButton.setText(R.string.edit);

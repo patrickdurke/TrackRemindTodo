@@ -2,6 +2,7 @@ package com.patrickdurke.trackremindtodo.ui.track.area.record.entry;
 
 import androidx.lifecycle.ViewModel;
 
+import com.patrickdurke.trackremindtodo.ui.track.AreaRepository;
 import com.patrickdurke.trackremindtodo.ui.track.area.Record;
 import com.patrickdurke.trackremindtodo.ui.track.area.RecordRepository;
 import com.patrickdurke.trackremindtodo.ui.track.area.parameter.Parameter;
@@ -17,20 +18,21 @@ public class EntryViewModel extends ViewModel {
     private RecordRepository recordRepository;
     private ParameterRepository parameterRepository;
 
-    public void addEntry(RecordEntry recordEntry) {
+    public void addEntry(RecordEntry recordEntry, int selectedAreaId) {
 
-        Record record = new Record();
-        record.setTimeStamp(Instant.now().getEpochSecond());
+        if(recordEntry.getRecordId() == -1) {
+            Record record = new Record();
+            record.setTimeStamp(Instant.now().getEpochSecond());
+            record.setAreaId(selectedAreaId);
+            int recordId = recordRepository.addRecord(record);
+            recordEntry.setRecordId(recordId);
+        }
 
-        int recordId = recordRepository.addRecord(record);
-        recordEntry.setRecordId(recordId);
-
-        entryRepository.addEntry(recordEntry);
+        entryRepository.addEntry(recordEntry, selectedAreaId);
     }
 
     public void init() {
         entryRepository = EntryRepository.getInstance();
-        //entryRepository.init(selectedAreaId, selectedRecordId);
         recordRepository = RecordRepository.getInstance();
         parameterRepository = ParameterRepository.getInstance();
     }

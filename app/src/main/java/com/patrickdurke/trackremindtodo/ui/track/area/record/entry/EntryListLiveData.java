@@ -8,25 +8,28 @@ import androidx.lifecycle.LiveData;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class EntryListLiveData extends LiveData<List<RecordEntry>> {
+public class EntryListLiveData extends LiveData<Map<String, RecordEntry>> {
     private static final String TAG = "EntryListLiveData";
     DatabaseReference entriesRef;
-    List<RecordEntry> recordEntryList;
-
-    GenericTypeIndicator<List<RecordEntry>> t = new GenericTypeIndicator<List<RecordEntry>>() {};
+    Map<String, RecordEntry> recordEntryMap;
 
     private final ValueEventListener listener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
-            recordEntryList = snapshot.getValue(t);
-            setValue(recordEntryList);
+            //https://stackoverflow.com/questions/55694354/expected-a-list-while-deserializing-but-got-a-class-java-util-hashmap
+            recordEntryMap = new HashMap<>();
+            for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                RecordEntry recordEntry = dataSnapshot.getValue(RecordEntry.class);
+                recordEntryMap.put(recordEntry.getId()+"", recordEntry);
+            }
+            setValue(recordEntryMap);
         }
 
         @Override

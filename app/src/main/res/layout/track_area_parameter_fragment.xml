@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Value type: "
+        android:text="@string/value_type"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_track_area_parameter_modify_unit" />
@@ -78,8 +78,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_track_area_parameter_modify_type"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
+        android:layout_height="40dp"
         app:cardElevation="10dp"
         app:layout_constraintStart_toStartOf="@+id/text_track_area_parameter_modify_type_label"
         app:layout_constraintTop_toBottomOf="@+id/text_track_area_parameter_modify_type_label">
@@ -87,16 +86,14 @@
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner_track_area_parameter_modify_type"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="10dp">
+            android:layout_height="match_parent"
+            android:overlapAnchor="false">
 
         </androidx.appcompat.widget.AppCompatSpinner>
     </androidx.cardview.widget.CardView>
 
     <Button
+        android:theme="@style/DefaultButton"
         android:id="@+id/button_track_area_parameter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

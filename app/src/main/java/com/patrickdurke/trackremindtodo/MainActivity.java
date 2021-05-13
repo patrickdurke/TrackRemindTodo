@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,13 +49,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-        viewModel.init();
         checkIfSignedIn();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView textViewUserEmail = headerView.findViewById(R.id.text_user_email);
+        TextView textViewUserName = headerView.findViewById(R.id.text_user_name);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        textViewUserEmail.setText(currentUser.getEmail());
+        textViewUserName.setText(currentUser.getDisplayName());
+
         fab = findViewById(R.id.fab);
 
         // Passing each menu ID as a set of Ids because each
@@ -111,11 +124,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkIfSignedIn() {
         viewModel.getCurrentUser().observe(this, user -> {
-            if (user != null) {
-                // String message = "Welcome " + user.getDisplayName(); //TODO
-                // Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            } else
+            if (user == null) {
                 startLoginActivity();
+            }
         });
     }
 

@@ -70,7 +70,7 @@ public class ParameterRepository {
         parameterList.add(new Parameter("Note", "textValueType", "", 0));
         parameterList.add(new Parameter("Weight", "numberValueType", "kg", 0));
         parameterList.add(new Parameter("Mood", "numberValueType", "", 1));
-        parameterList.add(new Parameter("Meditation", "durationValueType", "hours", 1));
+        parameterList.add(new Parameter("Meditation", "durationValueType", "minutes", 1));
         parameterList.add(new Parameter("Calories", "numberValueType", "kcal", 2));
 
         int id = 0;

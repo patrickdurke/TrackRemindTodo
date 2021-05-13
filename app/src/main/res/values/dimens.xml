@@ -8,6 +8,6 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- Height of the bottom navigation / system bar. -->
-    <dimen name="navigation_bar_height">48dp</dimen>
+    <dimen name="navigation_bar_height">56dp</dimen>
 
 </resources>

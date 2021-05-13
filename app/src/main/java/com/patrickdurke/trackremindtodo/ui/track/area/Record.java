@@ -2,22 +2,22 @@ package com.patrickdurke.trackremindtodo.ui.track.area;
 
 import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordEntry;
 
-import java.util.List;
+import java.util.Map;
 
 public class Record {
     private int id;
     private int areaId;
     private long timeStamp;
 
-    private List<RecordEntry> recordEntryList;
+    private Map<String,RecordEntry> recordEntryMap;
 
     public Record() {
     }
 
-    public Record(long timeStamp, int areaId, List<RecordEntry> recordEntryList) {
+    public Record(long timeStamp, int areaId, Map<String, RecordEntry> recordEntryMap) {
         this.timeStamp = timeStamp;
         this.areaId = areaId;
-        this.recordEntryList = recordEntryList;
+        this.recordEntryMap = recordEntryMap;
     }
 
     public int getId() {
@@ -37,12 +37,16 @@ public class Record {
         return areaId;
     }
 
-    public List<RecordEntry> getRecordEntryList() {
-   return recordEntryList;
+    public void setAreaId(int areaId) {
+        this.areaId = areaId;
     }
 
-    public void setRecordEntryList(List<RecordEntry> recordEntryList) {
-        this.recordEntryList = recordEntryList;
+    public Map<String, RecordEntry> getRecordEntryMap() {
+        return recordEntryMap;
+    }
+
+    public void setRecordEntryMap(Map<String, RecordEntry> recordEntryMap) {
+        this.recordEntryMap = recordEntryMap;
     }
 
     public long getTimeStamp() {

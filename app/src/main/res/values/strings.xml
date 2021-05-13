@@ -1,45 +1,49 @@
 <resources>
     <string name="app_name">TrackRemindTodo</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">TrackRemindTodo</string>
     <string name="nav_header_subtitle">user@user.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_home">Dashboard</string>
     <string name="menu_track">Track</string>
     <string name="menu_remind">Remind</string>
     <string name="menu_todo">Todo</string>
     <string name="menu_import_export">Import/Export</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
+
     <string name="add">Add</string>
+    <string name="edit">Edit</string>
+
     <string name="menu_track_area">Track Area</string>
-    <string name="entry_fragment">entry_fragment</string>
     <string name="record_fragment">TrackAreaRecordFragment</string>
-    <string name="area_fragment">track_area_fragment</string>
     <string name="parameter_unit">Parameter Unit (eg. km/h)</string>
-    <string name="parameter_type">Parameter Type (select from dropdown)</string>
     <string name="parameter_name">Parameter Name (eg. Running)</string>
     <string name="parameter">Parameter</string>
     <string name="add_parameter">Add Parameter</string>
-    <string name="edit">Edit</string>
+
     <string name="area">Area</string>
     <string name="area_name">Area name (eg. Fitness)</string>
     <string name="record">Record</string>
-    <string name="record_timestamp">Record timestamp (will be improved later)</string>
-    <string name="recordEntry">Entry</string>
+    <string name="record_entry">Entry</string>
     <string name="entry_value">Entry value (eg. 7)</string>
-    <string name="entry_parameter">Parameter (will be dropdown, eg. \"km\")</string>
-    <string name="area_color">Area color (eg. orange)</string>
 
     <string name="selectedAreaId">selectedAreaId</string>
     <string name="selectedRecordId">selectedRecordId</string>
     <string name="selectedEntryId">selectedEntryId</string>
     <string name="addNewParameter">addNewParameter</string>
+
     <string name="sign_in">Sign in</string>
 
     <string name="destination_label_area_tab_fragment">{area_name} Log</string>
+
+    <string name="todo_subheadning">Get things done</string>
+    <string name="remind_subheadning">Never miss a thing</string>
+    <string name="track_subheadning">The log of your life</string>
+
+    <string name="track_heading">Track anything</string>
+    <string name="area_heading_add">Add a new area to track</string>
+    <string name="value_type">Value type</string>
 
 </resources>

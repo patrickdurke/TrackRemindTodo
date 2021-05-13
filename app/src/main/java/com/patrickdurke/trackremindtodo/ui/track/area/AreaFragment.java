@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.patrickdurke.trackremindtodo.R;
 import com.patrickdurke.trackremindtodo.ui.track.Area;
+import com.patrickdurke.trackremindtodo.ui.track.area.record.entry.EntryFragmentDirections;
 
 public class AreaFragment extends Fragment {
 
@@ -33,8 +37,8 @@ public class AreaFragment extends Fragment {
     private RecordListAdapter recordListAdapter;
     private View constraintLayoutItem;
 
+    private TextView heading;
     private EditText areaName;
-    private EditText areaColor;
     private Button modifyButton;
     private FloatingActionButton fab;
 
@@ -73,9 +77,12 @@ public class AreaFragment extends Fragment {
         recyclerViewItemList = root.findViewById(R.id.track_area_recyclerview);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        //https://stackoverflow.com/questions/46168245/recyclerview-reverse-order/46168428
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
 
         recyclerViewItemList.setHasFixedSize(true);
-        recyclerViewItemList.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        recyclerViewItemList.setLayoutManager(layoutManager);
         recyclerViewItemList.setAdapter(recordListAdapter);
 
         return root;
@@ -87,23 +94,26 @@ public class AreaFragment extends Fragment {
 
         View view = getView();
         assert view != null;
+        heading = view.findViewById(R.id.text_track_modify_area);
         areaName = view.findViewById(R.id.text_track_modify_area_name);
-        areaColor = view.findViewById(R.id.text_track_modify_area_color);
 
         modifyButton = view.findViewById(R.id.button_track_area);
         setAddMode(addModeFlag);
 
         modifyButton.setOnClickListener(v -> {
             String name = areaName.getText().toString();
-            String color = areaColor.getText().toString();
 
-            Area area = new Area(name, color);
+            Area area = new Area(name);
 
             if (addModeFlag) {
                 areaViewModel.addArea(area);
                 Toast.makeText(getActivity(), name + " area was added", Toast.LENGTH_LONG).show();
                 setAddMode(false);
                 setOnclickListener(fab);
+
+                NavDirections navDirections = AreaFragmentDirections.actionTrackAreaFragmentToNavTrack();
+                Navigation.findNavController(v).navigate(navDirections);
+
             } else {
                 Toast.makeText(getActivity(), name + " area was edited (NOT IMPLEMENTED)" /* TODO */, Toast.LENGTH_LONG).show();
             }
@@ -154,14 +164,13 @@ public class AreaFragment extends Fragment {
     private void setAddMode(Boolean addMode) {
         addModeFlag = addMode;
         if (addModeFlag) {
+            heading.setText(R.string.area_heading_add);
             areaName.setText("");
-            areaColor.setText("");
             modifyButton.setText(R.string.add);
             fab.hide();
             fab.setOnClickListener(null);
             recyclerViewItemList.setVisibility(View.INVISIBLE);
             constraintLayoutItem.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(), " in add mode", Toast.LENGTH_LONG).show();
         } else {
             modifyButton.setText(R.string.edit);
             fab.show();
@@ -174,9 +183,6 @@ public class AreaFragment extends Fragment {
             else {
                 AreaTabFragmentDirections.ActionAreaTabFragmentToEntryFragment action
                         = AreaTabFragmentDirections.actionAreaTabFragmentToEntryFragment(-1, selectedAreaId,-1);
-
-                Toast.makeText(AreaFragment.this.getActivity(), " AreaFragment is listening", Toast.LENGTH_LONG).show();
-
                 fab.setOnClickListener(null);
 
                 assert getParentFragment() != null;

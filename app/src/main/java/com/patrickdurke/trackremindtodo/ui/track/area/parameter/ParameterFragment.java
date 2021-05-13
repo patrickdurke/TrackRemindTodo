@@ -5,6 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavBackStackEntry;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,6 +108,10 @@ public class ParameterFragment extends Fragment {
                 parameterViewModel.addParameter(parameter);
                 Toast.makeText(getActivity(), name + " parameter was added" , Toast.LENGTH_LONG).show();
                 setAddMode(false);
+
+                //Sending user back to wherever user came from
+                NavHostFragment.findNavController(this).popBackStack();
+
             } else {
                 Toast.makeText(getActivity(), name + " parameter was edited (NOT IMPLEMENTED)" /* TODO */ , Toast.LENGTH_LONG).show();
             }
@@ -124,11 +131,8 @@ public class ParameterFragment extends Fragment {
             parameterName.setText("");
             parameterUnit.setText("");
             modifyButton.setText(R.string.add);
-
             fab.hide();
             fab.setOnClickListener(null);
-
-            Toast.makeText(getActivity(), "in add mode", Toast.LENGTH_LONG).show();
         }
         else {
             modifyButton.setText(R.string.edit);

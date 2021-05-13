@@ -35,6 +35,6 @@ public class AreaFragmentStateAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return fragments.size();
     }
 }

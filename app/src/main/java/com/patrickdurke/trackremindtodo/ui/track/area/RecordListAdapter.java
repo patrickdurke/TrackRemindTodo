@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class RecordListAdapter extends RecyclerView.Adapter<AreaRecyclerViewHolder> { //ParentItemAdapter
     private List<Record> recordList = new ArrayList<>();
@@ -47,12 +48,13 @@ public class RecordListAdapter extends RecyclerView.Adapter<AreaRecyclerViewHold
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(holder.getChildRecyclerView().getContext(), LinearLayoutManager.VERTICAL, false);
 
-        List<RecordEntry> recordEntryList = (List<RecordEntry>) selectedRecord.getRecordEntryList();
+        List<RecordEntry> recordEntryList = new ArrayList<>();
+        Map<String, RecordEntry> recordEntryMap = (Map<String, RecordEntry>) selectedRecord.getRecordEntryMap();
 
-        int size = 0;
-        if(recordEntryList != null)
-            size = recordEntryList.size();
-        layoutManager.setInitialPrefetchItemCount(size);
+        for (Map.Entry mapEntry : recordEntryMap.entrySet())
+            recordEntryList.add((RecordEntry)mapEntry.getValue());
+
+        layoutManager.setInitialPrefetchItemCount(recordEntryList.size());
 
         RecordListChildAdapter recordListChildAdapter = new RecordListChildAdapter(recordEntryList);
         holder.getChildRecyclerView().setLayoutManager(layoutManager);

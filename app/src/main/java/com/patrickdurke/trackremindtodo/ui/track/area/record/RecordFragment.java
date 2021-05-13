@@ -23,22 +23,19 @@ import com.patrickdurke.trackremindtodo.R;
 import com.patrickdurke.trackremindtodo.ui.track.area.Record;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RecordFragment extends Fragment {
 
     private int selectedAreaId;
     private int selectedRecordId;
 
-    private boolean addModeFlag;
-
     private RecordViewModel recordViewModel;
     private RecyclerView recyclerViewItemList;
     private EntryListAdapter entryListAdapter;
-    private View constraintLayoutItem;
-    private EditText recordTimestamp;
 
-    private Button modifyButton;
     private FloatingActionButton fab;
 
 
@@ -58,12 +55,14 @@ public class RecordFragment extends Fragment {
         recordViewModel = new ViewModelProvider(this).get(RecordViewModel.class);
         recordViewModel.init(selectedAreaId, selectedRecordId);
 
-        addModeFlag = selectedRecordId == -1;
-
         //set observer on repository data and ensure update adapter data on changed repository data
-        recordViewModel.getEntryListLiveData().observe(this, entryList -> {
-          if (entryList != null) {
-              entryListAdapter.setRecordEntryList(entryList);
+        recordViewModel.getEntryListLiveData().observe(this, entryMap -> {
+          if (entryMap != null) {
+              List<RecordEntry> recordEntryList = new ArrayList<>();
+              for (Map.Entry mapEntry : entryMap.entrySet()) {
+                  recordEntryList.add((((RecordEntry)mapEntry.getValue())));
+              }
+              entryListAdapter.setRecordEntryList(recordEntryList);
           }
       });
 
@@ -76,7 +75,6 @@ public class RecordFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.track_area_record_fragment, container, false);
 
-        constraintLayoutItem = root.findViewById(R.id.layout_track_area_modify_record);
         // create RecyclerView
         recyclerViewItemList = root.findViewById(R.id.track_area_record_recyclerview);
         recyclerViewItemList.setHasFixedSize(true);
@@ -87,45 +85,9 @@ public class RecordFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        View view = getView();
-        assert view != null;
-        recordTimestamp = view.findViewById(R.id.text_track_area_modify_record_timestamp);
-        modifyButton = view.findViewById(R.id.button_track_area_record);
-
-        modifyButton.setOnClickListener(v -> {
-            long timeStamp = Instant.now().getEpochSecond();
-
-            List<RecordEntry> recordEntryList = recordViewModel.getEntryListLiveData().getValue();
-            Record record = new Record(timeStamp, selectedAreaId, recordEntryList);
-
-            if(addModeFlag) {
-                recordViewModel.addRecord(record);
-                Toast.makeText(getActivity(), timeStamp + "record was added" , Toast.LENGTH_LONG).show();
-                setAddMode(false);
-                setOnclickListener(fab);
-            } else {
-                Toast.makeText(getActivity(), timeStamp + "record was edited (NOT IMPLEMENTED)" /* TODO*/ , Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-
         setOnclickListener(fab);
-
-        setAddMode(selectedRecordId == -1);
-        if(addModeFlag){
-            recyclerViewItemList.setVisibility(View.INVISIBLE);
-            constraintLayoutItem.setVisibility(View.VISIBLE);
-        } else {
-            recyclerViewItemList.setVisibility(View.VISIBLE);
-            constraintLayoutItem.setVisibility(View.INVISIBLE);
-        }
     }
 
     @Override
@@ -151,37 +113,14 @@ public class RecordFragment extends Fragment {
         https://developer.android.com/guide/topics/ui/menus*/
     }
 
-    private void setAddMode(Boolean addMode) {
-        addModeFlag = addMode;
-        if (addModeFlag){
-            recordTimestamp.setText("");
-            modifyButton.setText(R.string.add);
-            fab.hide();
-            fab.setOnClickListener(null);
-            recyclerViewItemList.setVisibility(View.INVISIBLE);
-            constraintLayoutItem.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(), "in add mode", Toast.LENGTH_LONG).show();
-        }
-        else {
-            modifyButton.setText(R.string.edit);
-            fab.show();
-        }
-    }
-
     private void setOnclickListener(FloatingActionButton fab){
         fab.setOnClickListener(v -> {
-            if(selectedRecordId == -1)
-                setAddMode(true);
-            else {
                 RecordFragmentDirections.ActionTrackAreaRecordFragmentToEntryFragment action
                         = RecordFragmentDirections.actionTrackAreaRecordFragmentToEntryFragment(-1, selectedAreaId, selectedRecordId);
-                Toast.makeText(RecordFragment.this.getActivity(), "RecordFragment is listening", Toast.LENGTH_LONG).show();
-
                 fab.setOnClickListener(null);
 
                 assert getParentFragment() != null;
                 NavHostFragment.findNavController(getParentFragment()).navigate(action);
-            }
         });
     }
 }

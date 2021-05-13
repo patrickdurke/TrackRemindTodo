@@ -74,8 +74,6 @@ public class TrackFragment extends Fragment {
         fab.setOnClickListener(v -> {
             TrackFragmentDirections.ActionNavTrackToTrackAreaFragment action
                     = TrackFragmentDirections.actionNavTrackToTrackAreaFragment(-1);
-            Toast.makeText(TrackFragment.this.getActivity(), " TrackFragment is listening", Toast.LENGTH_LONG).show();
-
             fab.setOnClickListener(null);
 
             assert getParentFragment() != null;

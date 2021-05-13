@@ -9,6 +9,7 @@ import com.patrickdurke.trackremindtodo.ui.track.area.Record;
 import com.patrickdurke.trackremindtodo.ui.track.area.RecordRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class RecordViewModel extends ViewModel {
@@ -35,7 +36,7 @@ public class RecordViewModel extends ViewModel {
         return mText;
     }
 
-    public LiveData<List<RecordEntry>> getEntryListLiveData() {
+    public LiveData<Map<String, RecordEntry>> getEntryListLiveData() {
         return entryRepository.getEntryListLiveData();
     }
 

@@ -10,6 +10,7 @@ import com.patrickdurke.trackremindtodo.ui.track.area.record.RecordListLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RecordRepository {
 
@@ -58,7 +59,8 @@ public class RecordRepository {
         float y;
 
         for (Record record : getRecordListLiveData().getValue()){
-            for (RecordEntry recordEntry : record.getRecordEntryList()){
+            for (Map.Entry mapEntry : record.getRecordEntryMap().entrySet()){
+                RecordEntry recordEntry = (RecordEntry)mapEntry.getValue();
                 if (recordEntry.getParameterId() == parameterId) {
                     x = record.getTimeStamp();
                     y = Float.parseFloat(recordEntry.getValue());
